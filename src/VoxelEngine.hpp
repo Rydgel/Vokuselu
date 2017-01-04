@@ -1,0 +1,11 @@
+#ifndef VOXELS_VOXELENGINE_HPP
+#define VOXELS_VOXELENGINE_HPP
+
+
+class VoxelEngine
+{
+
+};
+
+
+#endif //VOXELS_VOXELENGINE_HPP

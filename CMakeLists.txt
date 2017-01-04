@@ -9,7 +9,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -O3")
 find_package(GLFW REQUIRED)
 find_package(OpenGL REQUIRED)
 
-set(SOURCE_FILES vendors/glad/glad.c src/main.cpp vendors/linmath/linmath.h)
+set(SOURCE_FILES
+        vendors/linmath/linmath.h
+        vendors/glad/glad.c
+        src/main.cpp
+        src/VoxelEngine.cpp src/VoxelEngine.hpp
+        src/Game.cpp src/Game.hpp
+        src/Window.cpp src/Window.hpp)
+
 add_executable(voxels ${SOURCE_FILES})
 
 if (OPENGL_FOUND)
