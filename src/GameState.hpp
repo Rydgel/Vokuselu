@@ -8,9 +8,9 @@ class Game;
 class GameState
 {
 public:
-    Game &game_;
+    Game &m_game;
 
-    GameState(Game &game): game_(game) { }
+    GameState(Game &game): m_game(game) { }
     virtual void handleInput(const float dt) = 0;
     virtual void update(const float dt) = 0;
     virtual void draw(const float dt) = 0;

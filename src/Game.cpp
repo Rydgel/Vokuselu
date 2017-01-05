@@ -2,43 +2,43 @@
 
 Game::Game()
 {
-    window = std::make_unique<Window>(windowWidth, windowHeight, windowTitle);
-    timer.init();
+    m_window = std::make_unique<Window>(m_windowWidth, m_windowHeight, m_windowTitle);
+    m_timer.init();
 }
 
 void Game::pushState(GameStatePtr state)
 {
-    states.push(std::move(state));
+    m_states.push(std::move(state));
 }
 
 void Game::popState()
 {
-    states.pop();
+    m_states.pop();
 }
 
 void Game::changeState(GameStatePtr state)
 {
-    if (!states.empty())
+    if (!m_states.empty())
         popState();
     pushState(std::move(state));
 }
 
 const boost::optional<GameStatePtr&> Game::peekState()
 {
-    if (states.empty())
+    if (m_states.empty())
         return boost::none;
-    return boost::make_optional<GameStatePtr&>(states.top());
+    return boost::make_optional<GameStatePtr&>(m_states.top());
 }
 
 void Game::gameLoop()
 {
     // todo events management
-    while (window->isOpen())
+    while (m_window->isOpen())
     {
-        const float dt = timer.getDelta();
+        const float dt = m_timer.getDelta();
 
         // Check and call events
-        window->pollEvents();
+        m_window->pollEvents();
 
         auto &currentState = peekState();
         if (!currentState.is_initialized())
@@ -47,27 +47,27 @@ void Game::gameLoop()
         currentState.get()->handleInput(dt);
         /* Update game and timer UPS */
         currentState.get()->update(dt);
-        timer.updateUPS();
+        m_timer.updateUPS();
         /* Render game and update timer FPS */
         currentState.get()->draw(dt);
-        timer.updateFPS();
+        m_timer.updateFPS();
 
         /* Update timer */
-        timer.update();
+        m_timer.update();
 
         // display fps
         std::ostringstream out;
-        out << "LearnOpenGL • FPS: " << timer.getFPS() << " | UPS: " << timer.getUPS();
-        window->changeTitle(out.str().c_str());
+        out << "LearnOpenGL • FPS: " << m_timer.getFPS() << " | UPS: " << m_timer.getUPS();
+        m_window->changeTitle(out.str().c_str());
 
         // Swap the buffers
-        window->swapBuffers();
+        m_window->swapBuffers();
     }
 }
 
 Game::~Game()
 {
-    while (!states.empty())
+    while (!m_states.empty())
         popState();
-    window->closeWindow();
+    m_window->closeWindow();
 }

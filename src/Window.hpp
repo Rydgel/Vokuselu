@@ -21,7 +21,7 @@ using GLFWwindowPtr = std::unique_ptr<GLFWwindow, DestroyglfwWin>;
 class Window
 {
 private:
-    GLFWwindowPtr window;
+    GLFWwindowPtr m_window;
 
 public:
     Window(const int width, const int height, const char *title);

@@ -9,12 +9,12 @@ using MilliSeconds = std::chrono::milliseconds;
 class Timer
 {
 private:
-    double lastLoopTime;
-    float timeCount;
-    int fps;
-    int fpsCount;
-    int ups;
-    int upsCount;
+    double m_lastLoopTime;
+    float m_timeCount;
+    int m_fps;
+    int m_fpsCount;
+    int m_ups;
+    int m_upsCount;
 
 public:
     Timer() = default;

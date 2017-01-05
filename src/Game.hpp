@@ -23,14 +23,14 @@ using GameStateStack = std::stack<GameStatePtr>;
 class Game
 {
 private:
-    WindowPtr window;
-    Timer timer;
-    VoxelEnginePtr voxelEngine;
-    GameStateStack states;
+    WindowPtr m_window;
+    Timer m_timer;
+    VoxelEnginePtr m_voxelEngine;
+    GameStateStack m_states;
 
-    const int windowWidth = 800;
-    const int windowHeight = 600;
-    const char *windowTitle = "LearnOpenGL";
+    const int m_windowWidth = 800;
+    const int m_windowHeight = 600;
+    const char *m_windowTitle = "LearnOpenGL";
 
 public:
     Game();

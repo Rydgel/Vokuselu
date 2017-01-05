@@ -15,15 +15,15 @@ Window::Window(const int width, const int height, const char *title)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    window = GLFWwindowPtr(glfwCreateWindow(width, height, title, nullptr, nullptr));
+    m_window = GLFWwindowPtr(glfwCreateWindow(width, height, title, nullptr, nullptr));
 
-    if (window == nullptr) {
+    if (m_window == nullptr) {
         fprintf(stderr, "Failed to open GLFW window.\n");
         glfwTerminate();
         throw std::runtime_error("Failed to open GLFW window.");
     }
 
-    glfwMakeContextCurrent(window.get());
+    glfwMakeContextCurrent(m_window.get());
     glfwSwapInterval(1);
     // Glad openGL loader
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
@@ -31,11 +31,11 @@ Window::Window(const int width, const int height, const char *title)
     // todo put that in a changeViewport function
     // Setting up viewport to draw inside
     int w, h;
-    glfwGetFramebufferSize(window.get(), &w, &h);
+    glfwGetFramebufferSize(m_window.get(), &w, &h);
     glViewport(0, 0, w, h);
 
     // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetInputMode(m_window.get(), GLFW_STICKY_KEYS, GL_TRUE);
 
     // Set the required callback functions
     // todo add a separated function
@@ -49,7 +49,7 @@ Window::Window(const int width, const int height, const char *title)
 
 bool Window::isOpen()
 {
-    return !glfwWindowShouldClose(window.get());
+    return !glfwWindowShouldClose(m_window.get());
 }
 
 void Window::pollEvents()
@@ -59,17 +59,17 @@ void Window::pollEvents()
 
 void Window::swapBuffers()
 {
-    return glfwSwapBuffers(window.get());
+    return glfwSwapBuffers(m_window.get());
 }
 
 void Window::closeWindow()
 {
-    glfwSetWindowShouldClose(window.get(), 1);
+    glfwSetWindowShouldClose(m_window.get(), 1);
 }
 
 void Window::changeTitle(const char *title)
 {
-    glfwSetWindowTitle(window.get(), title);
+    glfwSetWindowTitle(m_window.get(), title);
 }
 
 Window::~Window()

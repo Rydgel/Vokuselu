@@ -2,12 +2,12 @@
 
 void Timer::init()
 {
-    lastLoopTime = getTime();
-    timeCount = 0.0;
-    fps = 0;
-    fpsCount = 0;
-    ups = 0;
-    upsCount = 0;
+    m_lastLoopTime = getTime();
+    m_timeCount = 0.0;
+    m_fps = 0;
+    m_fpsCount = 0;
+    m_ups = 0;
+    m_upsCount = 0;
 }
 
 const double Timer::getTime()
@@ -20,41 +20,41 @@ const double Timer::getTime()
 float Timer::getDelta()
 {
     double time = getTime();
-    float delta = (float) (time - lastLoopTime);
-    lastLoopTime = time;
-    timeCount += delta;
+    float delta = (float) (time - m_lastLoopTime);
+    m_lastLoopTime = time;
+    m_timeCount += delta;
     return delta;
 }
 
 void Timer::updateFPS()
 {
-    fpsCount ++;
+    m_fpsCount ++;
 }
 
 void Timer::updateUPS()
 {
-    upsCount ++;
+    m_upsCount ++;
 }
 
 void Timer::update()
 {
-    if (timeCount > 1.0) {
-        fps = fpsCount;
-        fpsCount = 0;
+    if (m_timeCount > 1.0) {
+        m_fps = m_fpsCount;
+        m_fpsCount = 0;
 
-        ups = upsCount;
-        upsCount = 0;
+        m_ups = m_upsCount;
+        m_upsCount = 0;
 
-        timeCount -= 1.0;
+        m_timeCount -= 1.0;
     }
 }
 
 int Timer::getFPS()
 {
-    return fps > 0 ? fps : fpsCount;
+    return m_fps > 0 ? m_fps : m_fpsCount;
 }
 
 int Timer::getUPS()
 {
-    return ups > 0 ? ups : upsCount;
+    return m_ups > 0 ? m_ups : m_upsCount;
 }
