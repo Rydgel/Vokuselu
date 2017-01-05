@@ -17,7 +17,7 @@ const double Timer::getTime()
     return getMs / 1000.0;
 }
 
-float Timer::getDelta()
+const float Timer::getDelta()
 {
     double time = getTime();
     float delta = (float) (time - m_lastLoopTime);

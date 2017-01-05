@@ -22,7 +22,7 @@ public:
 
     void init();
     const double getTime();
-    float getDelta();
+    const float getDelta();
     void updateFPS();
     void updateUPS();
     void update();
