@@ -29,6 +29,7 @@ public:
     bool isOpen();
     void swapBuffers();
     void closeWindow();
+    void changeTitle(const char *title);
     ~Window();
 };
 

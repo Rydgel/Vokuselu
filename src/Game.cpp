@@ -3,6 +3,7 @@
 Game::Game()
 {
     window = std::make_unique<Window>(windowWidth, windowHeight, windowTitle);
+    timer.init();
 }
 
 void Game::pushState(GameStatePtr state)
@@ -34,17 +35,38 @@ void Game::gameLoop()
     // todo events management
     while (window->isOpen())
     {
-        // Check and call events
-        window->pollEvents();
+        /*const float dt = tmr.elapsed();
+        tmr.reset();
 
-        // todo get delta from each loop
-        const float dt = 0.0;
+        // show FPS
+        // printf("current frame time: %f\n", dt);
+        // printf("fps: %f\n", 1 / (dt / 1000));
+        std::ostringstream out;
+        out << "LearnOpenGL: (" << round(1 / (dt / 1000)) << ") fps";
+        window->changeTitle(out.str().c_str());*/
+
+        // Check and call events
+        const float dt = timer.getDelta();
+        window->pollEvents();
 
         auto &currentState = peekState();
         if (!currentState.is_initialized()) break;
+        /* Handle input */
         currentState.get()->handleInput(dt);
+        /* Update game and timer UPS */
         currentState.get()->update(dt);
+        timer.updateUPS();
+        /* Render game and update timer FPS */
         currentState.get()->draw(dt);
+        timer.updateFPS();
+
+        /* Update timer */
+        timer.update();
+
+        // display fps
+        std::ostringstream out;
+        out << "LearnOpenGL • FPS: " << timer.getFPS() << " | UPS: " << timer.getUPS();
+        window->changeTitle(out.str().c_str());
 
         // Swap the buffers
         window->swapBuffers();

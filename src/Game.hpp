@@ -3,10 +3,13 @@
 
 #include <memory>
 #include <stack>
+#include <sstream>
+#include <cmath>
 #include <boost/optional.hpp>
 #include "VoxelEngine.hpp"
 #include "Window.hpp"
 #include "GameState.hpp"
+#include "Timer.hpp"
 
 using namespace std;
 
@@ -21,6 +24,7 @@ class Game
 {
 private:
     WindowPtr window;
+    Timer timer;
     VoxelEnginePtr voxelEngine;
     GameStateStack states;
 

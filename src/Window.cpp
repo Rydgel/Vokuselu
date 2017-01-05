@@ -24,9 +24,9 @@ Window::Window(const int width, const int height, const char *title)
     }
 
     glfwMakeContextCurrent(window.get());
+    glfwSwapInterval(1);
     // Glad openGL loader
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-    glfwSwapInterval(1);
 
     // todo put that in a changeViewport function
     // Setting up viewport to draw inside
@@ -65,6 +65,11 @@ void Window::swapBuffers()
 void Window::closeWindow()
 {
     glfwSetWindowShouldClose(window.get(), 1);
+}
+
+void Window::changeTitle(const char *title)
+{
+    glfwSetWindowTitle(window.get(), title);
 }
 
 Window::~Window()
