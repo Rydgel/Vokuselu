@@ -8,9 +8,9 @@ class PlayState : public GameState
 {
 public:
     PlayState(Game &game): GameState(game) { };
-    virtual void draw(const float dt);
-    virtual void update(const float dt);
     virtual void handleInput(const float dt);
+    virtual void update(const float dt);
+    virtual void draw(const float dt);
     virtual ~PlayState() {
         std::cout << "playstate deallocated\n";
     }
