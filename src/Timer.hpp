@@ -2,8 +2,6 @@
 #define VOXELS_TIMER_HPP
 
 #include <iostream>
-#include <GLFW/glfw3.h>
-
 
 using Clock = std::chrono::high_resolution_clock;
 using MilliSeconds = std::chrono::milliseconds;
@@ -20,6 +18,8 @@ private:
 
 public:
     Timer() = default;
+    ~Timer() = default;
+
     void init();
     const double getTime();
     float getDelta();
@@ -28,7 +28,6 @@ public:
     void update();
     int getFPS();
     int getUPS();
-    ~Timer() = default;
 };
 
 
