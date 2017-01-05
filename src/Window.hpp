@@ -16,15 +16,17 @@ struct DestroyglfwWin
     }
 };
 
+using GLFWwindowPtr = std::unique_ptr<GLFWwindow, DestroyglfwWin>;
+
 class Window
 {
 private:
-    std::unique_ptr<GLFWwindow, DestroyglfwWin> window;
+    GLFWwindowPtr window;
 
 public:
     Window(const int width, const int height, const char *title);
     void pollEvents();
-    int isOpen();
+    bool isOpen();
     void swapBuffers();
     void closeWindow();
     ~Window();

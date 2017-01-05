@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "PlayState.hpp"
+
 using namespace std;
 
 
@@ -14,5 +16,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
 int main(int argc, char **argv) {
     Game game;
+    game.pushState(std::make_unique<PlayState>(game));
     game.gameLoop();
 }

@@ -15,9 +15,9 @@ Window::Window(const int width, const int height, const char *title)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    window = std::unique_ptr<GLFWwindow, DestroyglfwWin>(glfwCreateWindow(width, height, title, nullptr, nullptr));
+    window = GLFWwindowPtr(glfwCreateWindow(width, height, title, nullptr, nullptr));
 
-    if (window.get() == nullptr) {
+    if (window == nullptr) {
         fprintf(stderr, "Failed to open GLFW window.\n");
         glfwTerminate();
         throw std::runtime_error("Failed to open GLFW window.");
@@ -47,7 +47,7 @@ Window::Window(const int width, const int height, const char *title)
     printf("GLSL:     %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-int Window::isOpen()
+bool Window::isOpen()
 {
     return !glfwWindowShouldClose(window.get());
 }
