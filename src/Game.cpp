@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    window = WindowPtr(new Window(windowWidth, windowHeight, windowTitle));
+    window = std::make_unique<Window>(windowWidth, windowHeight, windowTitle);
 }
 
 void Game::pushState(GameStatePtr state)
