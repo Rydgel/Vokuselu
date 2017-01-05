@@ -5,6 +5,9 @@
 #include <GLFW/glfw3.h>
 
 
+using Clock = std::chrono::high_resolution_clock;
+using MilliSeconds = std::chrono::milliseconds;
+
 class Timer
 {
 private:

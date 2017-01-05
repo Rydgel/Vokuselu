@@ -12,7 +12,9 @@ void Timer::init()
 
 const double Timer::getTime()
 {
-    return glfwGetTime();
+    auto duration = Clock::now().time_since_epoch();
+    auto getMs = std::chrono::duration_cast<MilliSeconds>(duration).count();
+    return getMs / 1000.0;
 }
 
 float Timer::getDelta()

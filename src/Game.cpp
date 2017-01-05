@@ -41,7 +41,8 @@ void Game::gameLoop()
         window->pollEvents();
 
         auto &currentState = peekState();
-        if (!currentState.is_initialized()) break;
+        if (!currentState.is_initialized())
+            continue;
         /* Handle input */
         currentState.get()->handleInput(dt);
         /* Update game and timer UPS */
