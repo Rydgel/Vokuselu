@@ -12,7 +12,7 @@ Window::Window(const int width, const int height, const char *title)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     m_window = GLFWwindowPtr(glfwCreateWindow(width, height, title, nullptr, nullptr));
@@ -34,17 +34,9 @@ Window::Window(const int width, const int height, const char *title)
     glfwGetFramebufferSize(m_window.get(), &w, &h);
     glViewport(0, 0, w, h);
 
-    // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(m_window.get(), GLFW_STICKY_KEYS, GL_TRUE);
-
     // Set the required callback functions
-    // todo add a separated function
-    // glfwSetKeyCallback(window, keyCallback);
-
-    printf("Vendor:   %s\n", glGetString(GL_VENDOR));
-    printf("Renderer: %s\n", glGetString(GL_RENDERER));
-    printf("Version:  %s\n", glGetString(GL_VERSION));
-    printf("GLSL:     %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    setupEventCallbacks();
+    printGLInfos();
 }
 
 bool Window::isOpen()
@@ -70,6 +62,65 @@ void Window::closeWindow()
 void Window::changeTitle(const char *title)
 {
     glfwSetWindowTitle(m_window.get(), title);
+}
+
+void Window::printGLInfos()
+{
+    printf("Vendor:   %s\n", glGetString(GL_VENDOR));
+    printf("Renderer: %s\n", glGetString(GL_RENDERER));
+    printf("Version:  %s\n", glGetString(GL_VERSION));
+    printf("GLSL:     %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+}
+
+void Window::setupEventCallbacks()
+{
+    auto windowRawPtr = m_window.get();
+
+    // todo try to see if it's really needed
+    // Ensure we can capture the escape key being pressed below
+    glfwSetInputMode(windowRawPtr, GLFW_STICKY_KEYS, GL_TRUE);
+
+    glfwSetWindowUserPointer(windowRawPtr, this);
+
+    glfwSetKeyCallback(windowRawPtr, (GLFWkeyfun) [](auto glfwWindow, auto... params) {
+        auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
+        window->onKeyboardEvent(params...);
+    });
+
+    glfwSetMouseButtonCallback(windowRawPtr, (GLFWmousebuttonfun) [](auto glfwWindow, auto... params) {
+        auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
+        window->onMouseButtonEvent(params...);
+    });
+
+    glfwSetScrollCallback(windowRawPtr, (GLFWscrollfun) [](auto glfwWindow, auto... params) {
+        auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
+        window->onMouseScrollEvent(params...);
+    });
+
+    glfwSetCursorPosCallback(windowRawPtr, (GLFWcursorposfun) [](auto glfwWindow, auto... params) {
+        auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
+        window->onCursorPosEvent(params...);
+    });
+}
+
+void Window::onKeyboardEvent(int key, int scancode, int action, int mods)
+{
+    printf("GRO LUL\n");
+}
+
+void Window::onMouseButtonEvent(int button, int action, int mods)
+{
+    printf("CLICK CLICK event LUL\n");
+}
+
+void Window::onMouseScrollEvent(double xoffset, double yoffset)
+{
+    printf("SCROLL LUL\n");
+}
+
+void Window::onCursorPosEvent(double xpos, double ypos)
+{
+    printf("omg pos %f,%f\n", xpos, ypos);
 }
 
 Window::~Window()

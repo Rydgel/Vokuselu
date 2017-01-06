@@ -30,6 +30,13 @@ public:
     void swapBuffers();
     void closeWindow();
     void changeTitle(const char *title);
+    void printGLInfos();
+    /* event callbacks */
+    void setupEventCallbacks();
+    void onKeyboardEvent(int key, int scancode, int action, int mods);
+    void onMouseButtonEvent(int button, int action, int mods);
+    void onMouseScrollEvent(double xoffset, double yoffset);
+    void onCursorPosEvent(double xpos, double ypos);
     ~Window();
 };
 
