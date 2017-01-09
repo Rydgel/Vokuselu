@@ -1,13 +1,13 @@
 #ifndef VOXELS_PLAYSTATE_HPP
 #define VOXELS_PLAYSTATE_HPP
 
-#include "GameState.hpp"
+#include "IGameState.hpp"
 #include <iostream>
 
-class PlayState : public GameState
+class PlayState : public IGameState
 {
 public:
-    PlayState(Game &game): GameState(game) { };
+    PlayState(Game &game): IGameState(game) { };
     virtual void handleInput(const float dt);
     virtual void update(const float dt);
     virtual void draw(const float dt);

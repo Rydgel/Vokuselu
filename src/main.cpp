@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "PlayState.hpp"
+#include "states/PlayState.hpp"
 
 using namespace std;
 

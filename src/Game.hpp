@@ -7,15 +7,15 @@
 #include <cmath>
 #include <boost/optional.hpp>
 #include "Window.hpp"
-#include "GameState.hpp"
+#include "states/IGameState.hpp"
 #include "Timer.hpp"
 
 using namespace std;
 
-class GameState;
+class IGameState;
 
 using WindowPtr = std::unique_ptr<Window>;
-using GameStatePtr = std::unique_ptr<GameState>;
+using GameStatePtr = std::unique_ptr<IGameState>;
 using GameStateStack = std::stack<GameStatePtr>;
 
 class Game

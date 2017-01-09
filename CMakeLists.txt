@@ -20,8 +20,8 @@ set(SOURCE_FILES
         src/VoxelEngine.cpp src/VoxelEngine.hpp
         src/Game.cpp src/Game.hpp
         src/Window.cpp src/Window.hpp
-        src/GameState.hpp
-        src/PlayState.cpp src/PlayState.hpp
+        src/states/IGameState.hpp
+        src/states/PlayState.cpp src/states/PlayState.hpp
         src/Timer.cpp src/Timer.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
