@@ -5,13 +5,14 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -O3")
+#set(BOOST_ROOT "/usr/local/Cellar/boost/1.63.0/")
 
 find_package(GLFW REQUIRED)
 find_package(OpenGL REQUIRED)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME ON)
-find_package(Boost 1.63.0 REQUIRED)
+find_package(Boost 1.63.0 COMPONENTS context thread chrono system date_time fiber REQUIRED)
 
 set(SOURCE_FILES
         vendors/linmath/linmath.h
@@ -22,7 +23,9 @@ set(SOURCE_FILES
         src/Window.cpp src/Window.hpp
         src/states/IGameState.hpp
         src/states/PlayState.cpp src/states/PlayState.hpp
-        src/Timer.cpp src/Timer.hpp)
+        src/Timer.cpp src/Timer.hpp
+        src/events/EventDispatcher.cpp src/events/EventDispatcher.hpp
+        src/events/Event.hpp src/events/EventType.h)
 
 add_executable(voxels ${SOURCE_FILES})
 
