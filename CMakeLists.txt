@@ -22,7 +22,7 @@ set(SOURCE_FILES
         src/Window.cpp src/Window.hpp
         src/states/IGameState.hpp
         src/states/PlayState.cpp src/states/PlayState.hpp
-        src/Timer.cpp src/Timer.hpp)
+        src/Timer.cpp src/Timer.hpp src/events/IEvent.hpp src/events/KeyboardEvent.hpp src/events/EventTypes.hpp src/EventManager.cpp src/EventManager.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
