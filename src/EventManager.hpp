@@ -9,10 +9,8 @@
 #include "events/EventTypes.hpp"
 
 
-using SignalTypes = boost::variant<
-        boost::signals2::signal<void (KeyboardEvent)>,
->
-using SignalMap = std::map<EventType, const SignalTypes>;
+using Signal = boost::signals2::signal<void (IEvent)>;
+using SignalMap = std::map<EventType, Signal>;
 using SigConnection = boost::signals2::connection;
 
 class EventManager
@@ -31,7 +29,7 @@ public:
     }
 
     void unsubscribe(SigConnection c);
-    void push(IEvent &eventData);
+    void push(EventType et, IEvent eventData);
 };
 
 #endif //VOXELS_EVENTMANAGER_HPP

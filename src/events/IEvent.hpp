@@ -5,7 +5,7 @@
 
 struct IEvent
 {
-    virtual EventType getType() const = 0;
+
 };
 
 #endif //VOXELS_IEVENT_HPP

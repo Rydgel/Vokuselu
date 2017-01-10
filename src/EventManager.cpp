@@ -5,7 +5,7 @@ void EventManager::unsubscribe(SigConnection c)
     c.disconnect();
 }
 
-void EventManager::push(IEvent &eventData)
+void EventManager::push(EventType et, IEvent eventData)
 {
-    m_sigmap[eventData.getType()](eventData);
+    m_sigmap[et](eventData);
 }

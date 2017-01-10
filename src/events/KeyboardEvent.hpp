@@ -14,11 +14,6 @@ struct KeyboardEvent : IEvent
     {
 
     };
-
-    virtual EventType getType() const
-    {
-        return EventType::Keyboard;
-    }
 };
 
 #endif //VOXELS_KEYBOARDEVENT_HPP
