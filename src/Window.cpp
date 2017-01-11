@@ -1,6 +1,7 @@
 #include "Window.hpp"
 
-Window::Window(const int width, const int height, const char *title)
+Window::Window(const int width, const int height, const char *title, EventDispatcher &ed)
+: m_eventDispatcher(ed)
 {
     // Initialise GLFW
     if (!glfwInit()) {
@@ -105,22 +106,25 @@ void Window::setupEventCallbacks()
 
 void Window::onKeyboardEvent(int key, int scancode, int action, int mods)
 {
-    printf("GRO LUL\n");
+    Event e = KeyboardEvent(key, scancode, action, mods);
+    m_eventDispatcher.push(e);
 }
 
 void Window::onMouseButtonEvent(int button, int action, int mods)
 {
-    printf("CLICK CLICK event LUL\n");
+    Event e = MouseClickEvent(button, action, mods);
+    m_eventDispatcher.push(e);
 }
 
 void Window::onMouseScrollEvent(double xoffset, double yoffset)
 {
-    printf("SCROLL LUL\n");
+    // printf("SCROLL LUL\n");
 }
 
 void Window::onCursorPosEvent(double xpos, double ypos)
 {
-    printf("omg pos %f,%f\n", xpos, ypos);
+    Event e = MousePositionEvent(xpos, ypos);
+    m_eventDispatcher.push(e);
 }
 
 Window::~Window()

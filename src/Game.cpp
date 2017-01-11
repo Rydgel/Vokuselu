@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-    m_window = std::make_unique<Window>(m_windowWidth, m_windowHeight, m_windowTitle);
+    m_window = std::make_unique<Window>(m_windowWidth, m_windowHeight, m_windowTitle, m_eventDispatcher);
     m_timer.init();
 }
 
@@ -43,8 +43,6 @@ void Game::gameLoop()
         auto &currentState = peekState();
         if (!currentState.is_initialized())
             continue;
-        /* Handle input */
-        currentState.get()->handleInput(dt);
         /* Update game and timer UPS */
         currentState.get()->update(dt);
         m_timer.updateUPS();
@@ -63,6 +61,16 @@ void Game::gameLoop()
         // Swap the buffers
         m_window->swapBuffers();
     }
+}
+
+EventDispatcher &Game::getEventDispatcherRef()
+{
+    return m_eventDispatcher;
+}
+
+WindowPtr &Game::getWindowRef()
+{
+    return m_window;
 }
 
 Game::~Game()

@@ -6,14 +6,17 @@
 
 class PlayState : public IGameState
 {
+private:
+    boost::signals2::connection m_sigConnection;
+
+    virtual void mouseClickEventHandle(MouseClickEvent e);
+    virtual void mousePositionEventHandle(MousePositionEvent e);
+    virtual void keyboardEventHandle(KeyboardEvent e);
 public:
-    PlayState(Game &game): IGameState(game) { };
-    virtual void handleInput(const float dt);
+    PlayState(Game &game);
     virtual void update(const float dt);
     virtual void draw(const float dt);
-    virtual ~PlayState() {
-        std::cout << "playstate deallocated\n";
-    }
+    virtual ~PlayState();
 };
 
 

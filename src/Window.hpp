@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include "../vendors/glad/glad.h"
+#include "EventDispatcher.hpp"
 #include <GLFW/glfw3.h>
 
 
@@ -21,10 +22,11 @@ using GLFWwindowPtr = std::unique_ptr<GLFWwindow, DestroyglfwWin>;
 class Window
 {
 private:
+    EventDispatcher &m_eventDispatcher;
     GLFWwindowPtr m_window;
 
 public:
-    Window(const int width, const int height, const char *title);
+    Window(const int width, const int height, const char *title, EventDispatcher &ed);
     void pollEvents();
     bool isOpen();
     void swapBuffers();

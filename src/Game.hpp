@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <boost/optional.hpp>
+#include "EventDispatcher.hpp"
 #include "Window.hpp"
 #include "states/IGameState.hpp"
 #include "Timer.hpp"
@@ -21,6 +22,7 @@ using GameStateStack = std::stack<GameStatePtr>;
 class Game
 {
 private:
+    EventDispatcher m_eventDispatcher;
     WindowPtr m_window;
     Timer m_timer;
     GameStateStack m_states;
@@ -35,6 +37,8 @@ public:
     void popState();
     void changeState(GameStatePtr state);
     const boost::optional<GameStatePtr&> peekState();
+    WindowPtr &getWindowRef();
+    EventDispatcher &getEventDispatcherRef();
     void gameLoop();
     ~Game();
 };
