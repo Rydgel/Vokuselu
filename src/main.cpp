@@ -6,14 +6,12 @@
 #include <boost/signals2.hpp>
 
 namespace hana = boost::hana;
+namespace signals = boost::signals2;
 
 // My case wrapper
 template <class Ret, class Caller>
 struct CaseVisitor: boost::static_visitor<Ret> {
     CaseVisitor(const Caller & caller): caller_ { caller } {}
-
-    template <class T>
-    auto operator()(T & t) const { return caller_(t); }
 
     template <class T>
     auto operator()(const T & t) const { return caller_(t); }
@@ -24,21 +22,7 @@ struct CaseVisitor: boost::static_visitor<Ret> {
 // Const variant version
 template <class T, template <class...> class V, class F, class... Ts, class... Fs>
 auto case_(const V<T, Ts...> & variant, F && f, Fs &&... fs) {
-    auto caller = boost::hana::overload_linearly(f, fs...);
-
-    using Caller  = decltype(caller);
-    using Ret     = std::result_of_t<Caller(T)>;
-    using Visitor = CaseVisitor<Ret, Caller>;
-
-    const Visitor v { caller };
-
-    return boost::apply_visitor(v, variant);
-};
-
-// Mutable variant version
-template <class T, class... Ts, template <class...> class V, class F, class... Fs>
-auto case_(V<T, Ts...> & variant, F && f, Fs &&... fs) {
-    auto caller = boost::hana::overload_linearly(f, fs...);
+    auto caller = hana::overload_linearly(f, fs...);
 
     using Caller  = decltype(caller);
     using Ret     = std::result_of_t<Caller(T)>;
@@ -55,6 +39,17 @@ auto make_variant_over = hana::reverse_partial(
         hana::template_<boost::variant>
 );
 
+// Argument type deduction helper
+template <class F>
+struct FirstParameter {
+    template <class R, class C, class P1>
+    static constexpr auto deduce(R (C::*)(P1) const) {
+        return hana::decltype_(hana::type_c<P1>); // Strips const-ref qualifiers
+    }
+
+    using type = typename decltype(deduce(&F::operator()))::type;
+};
+
 // -----------------------------------------------------------------------------
 
 // Event Types
@@ -62,93 +57,49 @@ struct MouseEvent    { };
 struct KeyboardEvent { };
 
 template <class ConcreteEvent>
-using EventSignalT = boost::signals2::signal<void (ConcreteEvent)>;
+using EventSignal = signals::signal<void (ConcreteEvent)>;
 
-constexpr auto eventSet = hana::tuple_t<
+// Add event types below, that's it !
+constexpr auto event_set = hana::tuple_t<
         MouseEvent,
         KeyboardEvent
 >;
-constexpr auto eventSignalSet = hana::transform(eventSet, hana::template_<EventSignalT>);
 
-using Event       = decltype(make_variant_over(eventSet)      )::type;
-using EventSignal = decltype(make_variant_over(eventSignalSet))::type;
+using Event = decltype(make_variant_over(event_set))::type;
+
+// type_c<T> -> make_pair(type_c<T>, EventSignal<T>{})
+auto event_signal_pair = [](auto type) {
+    using T = typename decltype(type)::type;
+
+    return hana::make_pair(type, EventSignal<T>{});
+};
 
 // Dispatcher
 struct EventDispatcher {
-    using TypeHash = std::size_t;
-    using SignalMap = std::unordered_map<TypeHash, EventSignal>;
+    using SignalMap = decltype(
+    hana::unpack(
+            hana::transform(event_set, event_signal_pair),
+            hana::make_map
+    )
+    );
 
-    template <class ConcreteEvent>
-    using EventSlot = std::function<void (ConcreteEvent)>;
-
-    SignalMap m_signalMap;
-
-    //
-    // Subscribe
-    //
-    template <class ConcreteEvent>
-    auto subscribeImpl(EventSlot<ConcreteEvent> handler) {
-        using ConcreteSignal = EventSignalT<ConcreteEvent>;
-        using Connection = boost::signals2::connection;
-
-        static const auto eventHash = typeid(ConcreteEvent).hash_code();
-
-        Connection conn;
-        auto entry = m_signalMap.find(eventHash);
-
-        if (entry != m_signalMap.end()) {
-            // Signal already exists, update it with the new handler
-            auto &signal = entry->second;
-
-            conn = case_(signal,
-                         [=](ConcreteSignal & sig) { return sig.connect(handler); },
-                         [](auto &&) -> Connection {
-                             throw std::runtime_error("I BROKE MY CONSTRAINT :'(");
-                         }
-            );
-        }
-        else {
-            // Create and store a new signal
-            ConcreteSignal s;
-            conn = s.connect(handler);
-            m_signalMap.emplace(eventHash, std::move(s));
-        }
-
-        return conn;
-    }
-
-    template <class Slot, class C, class R, class ConcreteEvent>
-    auto subscribeDeduce(Slot slot, R (C::*)(ConcreteEvent) const) {
-        // Only helps deducing the slot's first parameter type
-        return subscribeImpl(EventSlot<ConcreteEvent> {slot});
-    }
+    SignalMap signal_map;
 
     template <class Slot>
     auto subscribe(Slot slot) {
-        return subscribeDeduce(slot, &Slot::operator());
+        using ConcreteEvent = typename FirstParameter<Slot>::type;
+
+        auto & sig = signal_map[hana::type_c<ConcreteEvent>];
+
+        return sig.connect(slot);
     }
 
-    // todo add disconnect
-
-    //
-    // Push
-    //
-    template <class ConcreteEvent>
-    auto pushImpl(const Event &event) {
-        using ConcreteSignal = EventSignalT<ConcreteEvent>;
-
-        static const auto eventHash = typeid(ConcreteEvent).hash_code();
-
-        auto &concreteSignal = boost::get<ConcreteSignal>(m_signalMap[eventHash]);
-        auto &concreteEvent = boost::get<ConcreteEvent>(event);
-
-        concreteSignal(concreteEvent);
-    }
-
-    void push(const Event &event) {
+    auto push(const Event & event) {
         case_(event,
-              [=](auto concreteEvent) {
-                  this->pushImpl<decltype(concreteEvent)>(event);
+              [&](auto concreteEvent) {
+                  auto & signal = signal_map[hana::make_type(concreteEvent)];
+
+                  return signal(concreteEvent);
               }
         );
     }
@@ -164,15 +115,18 @@ int main(int argc, char **argv) {
 
     EventDispatcher d;
 
-    auto mouseTrigger    = [](MouseEvent m)    { std::cout << "Mouse\n";    };
-    auto keyboardTrigger = [](KeyboardEvent k) { std::cout << "Keyboard\n"; };
+    auto mouse_trigger    = [](MouseEvent m)    { std::cout << "Mouse\n";    };
+    auto keyboard_trigger = [](KeyboardEvent k) { std::cout << "Keyboard\n"; };
 
-    d.subscribe(mouseTrigger);
-    d.subscribe(mouseTrigger);
-    d.subscribe(mouseTrigger);
-    d.subscribe(keyboardTrigger);
-    d.subscribe(keyboardTrigger);
-    auto c = d.subscribe(keyboardTrigger);
-    c.disconnect();
+    auto c1 = d.subscribe(mouse_trigger);
+    auto c2 = d.subscribe(mouse_trigger);
+    auto c3 = d.subscribe(keyboard_trigger);
+    auto c4 = d.subscribe(keyboard_trigger);
+
+    d.push(e);
+
+    c1.disconnect();
+    c3.disconnect();
+
     d.push(e);
 }
