@@ -48,6 +48,11 @@ bool Window::isOpen()
 void Window::pollEvents()
 {
     glfwPollEvents();
+    // Mouse position
+    double xpos, ypos;
+    glfwGetCursorPos(m_window.get(), &xpos, &ypos);
+    Event mousePosE = MousePositionEvent(xpos, ypos);
+    m_eventDispatcher.push(mousePosE);
 }
 
 void Window::swapBuffers()
@@ -97,11 +102,6 @@ void Window::setupEventCallbacks()
         auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
         window->onMouseScrollEvent(params...);
     });
-
-    glfwSetCursorPosCallback(windowRawPtr, (GLFWcursorposfun) [](auto glfwWindow, auto... params) {
-        auto window = static_cast<Window *>(glfwGetWindowUserPointer(glfwWindow));
-        window->onCursorPosEvent(params...);
-    });
 }
 
 void Window::onKeyboardEvent(int key, int scancode, int action, int mods)
@@ -119,12 +119,6 @@ void Window::onMouseButtonEvent(int button, int action, int mods)
 void Window::onMouseScrollEvent(double xoffset, double yoffset)
 {
     // printf("SCROLL LUL\n");
-}
-
-void Window::onCursorPosEvent(double xpos, double ypos)
-{
-    Event e = MousePositionEvent(xpos, ypos);
-    m_eventDispatcher.push(e);
 }
 
 Window::~Window()

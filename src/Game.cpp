@@ -32,7 +32,6 @@ const boost::optional<GameStatePtr&> Game::peekState()
 
 void Game::gameLoop()
 {
-    // todo events management
     while (m_window->isOpen())
     {
         const float dt = m_timer.getDelta();

@@ -24,7 +24,7 @@ void PlayState::mouseClickEventHandle(MouseClickEvent e)
 
 void PlayState::mousePositionEventHandle(MousePositionEvent e)
 {
-    std::cout << "Mouse move\n";
+    // std::cout << "Mouse move\n";
 }
 
 void PlayState::keyboardEventHandle(KeyboardEvent e)
