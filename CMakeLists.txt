@@ -8,9 +8,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -O3")
 
 find_package(GLFW REQUIRED)
 find_package(OpenGL REQUIRED)
-set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_LIBS OFf)
 set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.63.0 REQUIRED)
 
 set(SOURCE_FILES
@@ -22,7 +22,8 @@ set(SOURCE_FILES
         src/Window.cpp src/Window.hpp
         src/states/IGameState.hpp
         src/states/PlayState.cpp src/states/PlayState.hpp
-        src/Timer.cpp src/Timer.hpp src/events/IEvent.hpp src/events/KeyboardEvent.hpp src/events/EventTypes.hpp src/EventManager.cpp src/EventManager.hpp)
+        src/Timer.cpp src/Timer.hpp
+        src/EventDispatcher.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
@@ -43,6 +44,10 @@ endif()
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     target_link_libraries(voxels ${Boost_LIBRARIES})
+endif()
+
+if (Hana_FOUND)
+    include_directories(${Hana_INCLUDE_DIRS})
 endif()
 
 file(COPY src/shaders DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}.)
