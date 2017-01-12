@@ -98,7 +98,7 @@ void Model::draw()
     // Draw our first triangle
     glUseProgram(m_shaderProgram);
     glBindVertexArray(m_vaoId); // Bind our Vertex Array Object
-    glDrawArrays(GL_TRIANGLES, 0, 6); // Draw our square
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0); // Unbind our Vertex Array Object
 }
 
