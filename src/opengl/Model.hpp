@@ -3,6 +3,8 @@
 
 #include <vector>
 #include "../../vendors/glad/glad.h"
+#include <GLFW/glfw3.h>
+#include "Shader.hpp"
 
 class Model
 {
@@ -10,7 +12,7 @@ private:
     GLuint m_vaoId;
     GLuint m_vboId;
     GLuint m_eboId;
-    GLuint m_shaderProgram;
+    Shader m_shader;
 public:
     Model(const std::vector<GLfloat>& vertexPositions);
     void draw();

@@ -2,7 +2,7 @@
 
 const char* OpenGLError::glErrorString(GLenum err)
 {
-    switch(err) {
+    switch (err) {
         case GL_INVALID_ENUM: return "Invalid Enum";
         case GL_INVALID_VALUE: return "Invalid Value";
         case GL_INVALID_OPERATION: return "Invalid Operation";
