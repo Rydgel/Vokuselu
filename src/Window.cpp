@@ -25,7 +25,7 @@ Window::Window(const int width, const int height, const char *title, EventDispat
     }
 
     glfwMakeContextCurrent(m_window.get());
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
     // Glad openGL loader
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
@@ -57,7 +57,7 @@ void Window::pollEvents()
 
 void Window::swapBuffers()
 {
-    return glfwSwapBuffers(m_window.get());
+    glfwSwapBuffers(m_window.get());
 }
 
 void Window::closeWindow()

@@ -23,7 +23,7 @@ set(SOURCE_FILES
         src/states/IGameState.hpp
         src/states/PlayState.cpp src/states/PlayState.hpp
         src/Timer.cpp src/Timer.hpp
-        src/EventDispatcher.hpp src/utils/hana.hpp src/events/MouseClickEvent.hpp src/events/KeyboardEvent.hpp src/events/MousePositionEvent.hpp)
+        src/EventDispatcher.hpp src/utils/hana.hpp src/events/MouseClickEvent.hpp src/events/KeyboardEvent.hpp src/events/MousePositionEvent.hpp src/Model.cpp src/Model.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 

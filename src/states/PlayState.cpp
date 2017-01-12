@@ -1,7 +1,14 @@
 #include "PlayState.hpp"
 
 PlayState::PlayState(Game &game) : IGameState(game)
+, m_model({
+                  0.5f,  0.5f, 0.0f,  // Top Right
+                  0.5f, -0.5f, 0.0f,  // Bottom Right
+                  -0.5f, -0.5f, 0.0f,  // Bottom Left
+                  -0.5f,  0.5f, 0.0f   // Top Left
+          })
 {
+    // events handling
     EventDispatcher &eventDispatcher = game.getEventDispatcherRef();
 
     eventDispatcher.subscribe([this](MouseClickEvent e) {
@@ -51,6 +58,8 @@ void PlayState::draw(const float dt)
     // rendering here..
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    m_model.draw();
 }
 
 PlayState::~PlayState()
