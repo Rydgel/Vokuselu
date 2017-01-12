@@ -8,7 +8,7 @@
 #include <boost/variant.hpp>
 #include <boost/signals2.hpp>
 
-#include "utils/hana.hpp"
+#include "utils/Hana.hpp"
 #include "events/MouseClickEvent.hpp"
 #include "events/MousePositionEvent.hpp"
 #include "events/KeyboardEvent.hpp"

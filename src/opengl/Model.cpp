@@ -1,4 +1,5 @@
 #include "Model.hpp"
+#include "OpenGLError.hpp"
 #include <iostream>
 
 // Shaders
@@ -43,7 +44,7 @@ Model::Model(const std::vector<GLfloat>& vertexPositions)
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     // Link shaders
-    m_shaderProgram  = glCreateProgram();
+    m_shaderProgram = glCreateProgram();
     glAttachShader(m_shaderProgram, vertexShader);
     glAttachShader(m_shaderProgram, fragmentShader);
     glLinkProgram(m_shaderProgram);
@@ -86,11 +87,9 @@ Model::Model(const std::vector<GLfloat>& vertexPositions)
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
     glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
-}
 
-void Model::bind()
-{
-    // glBindBuffer(GL_ARRAY_BUFFER, m_vertexId);
+    OpenGLError error;
+    error.checkOpenGLError("Error init model");
 }
 
 void Model::draw()
@@ -100,14 +99,14 @@ void Model::draw()
     glBindVertexArray(m_vaoId); // Bind our Vertex Array Object
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0); // Unbind our Vertex Array Object
-}
 
-void Model::unbind()
-{
-    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    OpenGLError error;
+    error.checkOpenGLError("Error drawing");
 }
 
 Model::~Model()
 {
-    glDeleteBuffers(1, &m_vertexId);
+    glDeleteVertexArrays(1, &m_vaoId);
+    glDeleteBuffers(1, &m_vboId);
+    glDeleteBuffers(1, &m_eboId);
 }

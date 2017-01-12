@@ -2,7 +2,7 @@
 #define VOXELS_PLAYSTATE_HPP
 
 #include "IGameState.hpp"
-#include "../Model.hpp"
+#include "../opengl/Model.hpp"
 #include <iostream>
 
 class PlayState : public IGameState
