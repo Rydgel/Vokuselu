@@ -4,9 +4,10 @@
 #include <vector>
 #include "../../vendors/glad/glad.h"
 #include <GLFW/glfw3.h>
+#include "OpenGLError.hpp"
 #include "Shader.hpp"
 
-class Model
+class Triangle
 {
 private:
     GLuint m_vaoId;
@@ -14,9 +15,9 @@ private:
     GLuint m_eboId;
     Shader m_shader;
 public:
-    Model(const std::vector<GLfloat>& vertexPositions);
+    Triangle();
     void draw();
-    ~Model();
+    ~Triangle();
 };
 
 

@@ -2,14 +2,14 @@
 #define VOXELS_PLAYSTATE_HPP
 
 #include "IGameState.hpp"
-#include "../opengl/Model.hpp"
+#include "../opengl/Triangle.hpp"
 #include <iostream>
 
 class PlayState : public IGameState
 {
 private:
     boost::signals2::connection m_sigConnection;
-    Model m_model;
+    Triangle m_model;
 
     virtual void mouseClickEventHandle(MouseClickEvent e);
     virtual void mousePositionEventHandle(MousePositionEvent e);

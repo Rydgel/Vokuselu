@@ -28,7 +28,7 @@ set(SOURCE_FILES
         src/events/MouseClickEvent.hpp
         src/events/KeyboardEvent.hpp
         src/events/MousePositionEvent.hpp
-        src/opengl/Model.cpp src/opengl/Model.hpp
+        src/opengl/Triangle.cpp src/opengl/Triangle.hpp
         src/opengl/OpenGLError.cpp src/opengl/OpenGLError.hpp
         src/opengl/Shader.cpp src/opengl/Shader.hpp)
 

@@ -1,8 +1,6 @@
-#include "Model.hpp"
-#include "OpenGLError.hpp"
-#include <iostream>
+#include "Triangle.hpp"
 
-Model::Model(const std::vector<GLfloat>& vertexPositions)
+Triangle::Triangle()
 : m_shader("shaders/color.vert", "shaders/color.frag")
 {
     GLfloat vertices[] = {
@@ -35,15 +33,17 @@ Model::Model(const std::vector<GLfloat>& vertexPositions)
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
-
-    glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
-
+    // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently
+    // bound vertex buffer object so afterwards we can safely unbind
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
+    // remember: do NOT unbind the EBO, keep it bound to this VAO
+    glBindVertexArray(0);
     OpenGLError error;
     error.checkOpenGLError("Error init model");
 }
 
-void Model::draw()
+void Triangle::draw()
 {
     // Draw our first triangle
     m_shader.use();
@@ -56,7 +56,7 @@ void Model::draw()
     error.checkOpenGLError("Error drawing");
 }
 
-Model::~Model()
+Triangle::~Triangle()
 {
     glDeleteVertexArrays(1, &m_vaoId);
     glDeleteBuffers(1, &m_vboId);

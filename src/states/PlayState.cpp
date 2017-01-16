@@ -1,12 +1,6 @@
 #include "PlayState.hpp"
 
 PlayState::PlayState(Game &game) : IGameState(game)
-, m_model({
-                  0.5f,  0.5f, 0.0f,  // Top Right
-                  0.5f, -0.5f, 0.0f,  // Bottom Right
-                  -0.5f, -0.5f, 0.0f,  // Bottom Left
-                  -0.5f,  0.5f, 0.0f   // Top Left
-          })
 {
     // events handling
     EventDispatcher &eventDispatcher = game.getEventDispatcherRef();

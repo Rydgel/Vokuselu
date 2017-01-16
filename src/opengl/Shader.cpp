@@ -75,6 +75,7 @@ void Shader::use()
     // todo abstract a way to set dynamically variable to the shaders from
     // todo the outside
     glUseProgram(m_program);
+    ///////
     GLfloat timeValue = (float) glfwGetTime();
     GLint vertexColorLocation = glGetUniformLocation(m_program, "hue_value");
     glUniform1f(vertexColorLocation, timeValue);
