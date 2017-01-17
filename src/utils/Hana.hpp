@@ -22,15 +22,10 @@ struct CaseVisitor: boost::static_visitor<Ret> {
 // Const variant version
 template <class T, template <class...> class V, class F, class... Ts, class... Fs>
 auto case_(const V<T, Ts...> & variant, F && f, Fs &&... fs) {
-    auto caller = hana::overload_linearly(f, fs...);
-
-    using Caller  = decltype(caller);
-    using Ret     = std::result_of_t<Caller(T)>;
-    using Visitor = CaseVisitor<Ret, Caller>;
-
-    const Visitor v { caller };
-
-    return boost::apply_visitor(v, variant);
+    return boost::apply_visitor(
+            hana::overload_linearly(f, fs...),
+            variant
+    );
 };
 
 // Hana -> boost::variant helper
