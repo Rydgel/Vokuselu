@@ -70,13 +70,24 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     glDeleteShader(fragment);
 }
 
-void Shader::use()
+void Shader::setUniform(const std::string &name, int x)
 {
-    // todo abstract a way to set dynamically variable to the shaders from
-    // todo the outside
+    GLint vertexColorLocation = glGetUniformLocation(m_program, name.c_str());
+    glUniform1i(vertexColorLocation, x);
+}
+
+void Shader::setUniform(const std::string &name, float x)
+{
+    GLint vertexColorLocation = glGetUniformLocation(m_program, name.c_str());
+    glUniform1f(vertexColorLocation, x);
+}
+
+void Shader::bind()
+{
     glUseProgram(m_program);
-    ///////
-    GLfloat timeValue = (float) glfwGetTime();
-    GLint vertexColorLocation = glGetUniformLocation(m_program, "hue_value");
-    glUniform1f(vertexColorLocation, timeValue);
+}
+
+void Shader::unbind()
+{
+    glUseProgram(0);
 }

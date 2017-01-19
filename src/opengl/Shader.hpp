@@ -15,9 +15,13 @@ public:
     GLuint m_program;
     // Constructor reads and builds the shader
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-    // todo set variables
+    // todo add all uniforms type
+    // uniform variable settings
+    void setUniform(const std::string &name, int x);
+    void setUniform(const std::string &name, float x);
     // Use the program
-    void use();
+    void bind();
+    void unbind();
 };
 
 

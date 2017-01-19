@@ -46,11 +46,13 @@ Triangle::Triangle()
 void Triangle::draw()
 {
     // Draw our first triangle
-    m_shader.use();
+    m_shader.bind();
+    m_shader.setUniform("hue_value", (float) glfwGetTime());
     glBindVertexArray(m_vaoId); // Bind our Vertex Array Object
     //glDrawArrays(GL_TRIANGLES, 0, 3); <- when not using ebo
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0); // Unbind our Vertex Array Object
+    m_shader.unbind();
 
     OpenGLError error;
     error.checkOpenGLError("Error drawing");
