@@ -33,7 +33,8 @@ set(SOURCE_FILES
         src/opengl/Shader.cpp src/opengl/Shader.hpp
         src/opengl/Mesh.cpp src/opengl/Mesh.hpp
         src/opengl/Vertex.hpp
-        src/opengl/Texture.cpp src/opengl/Texture.hpp)
+        src/opengl/Texture.cpp src/opengl/Texture.hpp
+        vendors/stb_image/stb_image.hpp vendors/stb_image/stb_image.cpp)
 
 add_executable(voxels ${SOURCE_FILES})
 

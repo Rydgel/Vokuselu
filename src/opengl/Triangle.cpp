@@ -10,10 +10,9 @@ Triangle::Triangle()
 void Triangle::draw()
 {
     // Draw our first triangle
-    m_shader.bind();
+    BoundShader bound(m_shader);
     m_shader.setUniform("hue_value", (float) glfwGetTime());
     m_mesh.draw(m_shader);
-    m_shader.unbind();
 }
 
 Triangle::~Triangle()

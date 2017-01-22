@@ -24,5 +24,11 @@ public:
     void unbind();
 };
 
-
+// RAII
+struct BoundShader
+{
+    BoundShader(Shader &sh): sh(sh) { sh.bind(); }
+    ~BoundShader() { sh.unbind(); }
+    Shader &sh;
+};
 #endif //VOXELS_SHADER_HPP
