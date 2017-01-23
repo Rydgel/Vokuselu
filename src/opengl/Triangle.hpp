@@ -1,42 +1,31 @@
-#ifndef VOXELS_MODEL_HPP
-#define VOXELS_MODEL_HPP
+#ifndef VOXELS_TRIANGLE_HPP
+#define VOXELS_TRIANGLE_HPP
 
 #include <vector>
 #include "../../vendors/glad/glad.h"
 #include <GLFW/glfw3.h>
+#include "../../vendors/stb_image/stb_image.hpp"
 #include "OpenGLError.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
+#include "TextureManager.hpp"
+#include "IModel.hpp"
 
-class Triangle
+class Triangle : public IModel
 {
 private:
     Shader m_shader;
+    TextureManager &m_textureManager;
     Mesh m_mesh;
 
-    const std::vector<Vertex> getVertices()
-    {
-        return {
-                Vertex { {0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {}},
-                Vertex { {-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {}},
-                Vertex { {0.0f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {}}
-        };
-    };
-
-    const std::vector<GLuint> getIndices()
-    {
-        return { 0, 1, 2 };
-    }
-
-    const std::vector<Texture> getTextures()
-    {
-        return {};
-    }
+    virtual const std::vector<Vertex> getVertices();
+    virtual const std::vector<GLuint> getIndices();
+    virtual const std::vector<std::shared_ptr<Texture>> getTextures();
 public:
-    Triangle();
+    Triangle(TextureManager &textureManager);
     void draw();
     ~Triangle() {};
 };
 
 
-#endif //VOXELS_MODEL_HPP
+#endif //VOXELS_TRIANGLE_HPP

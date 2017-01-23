@@ -4,6 +4,9 @@ Game::Game()
 {
     m_window = std::make_unique<Window>(m_windowWidth, m_windowHeight, m_windowTitle, m_eventDispatcher);
     m_timer.init();
+    // load textures
+    m_textureManager.addTexture("pogchamp", "resources/textures/pogchamp.png");
+    m_textureManager.addTexture("wall", "resources/textures/wall.jpg");
 }
 
 void Game::pushState(GameStatePtr state)
@@ -70,6 +73,11 @@ EventDispatcher &Game::getEventDispatcherRef()
 WindowPtr &Game::getWindowRef()
 {
     return m_window;
+}
+
+TextureManager &Game::getTextureManagerRef()
+{
+    return m_textureManager;
 }
 
 Game::~Game()

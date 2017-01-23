@@ -1,6 +1,7 @@
 #include "PlayState.hpp"
 
 PlayState::PlayState(Game &game) : IGameState(game)
+, m_model(game.getTextureManagerRef())
 {
     // events handling
     EventDispatcher &eventDispatcher = game.getEventDispatcherRef();

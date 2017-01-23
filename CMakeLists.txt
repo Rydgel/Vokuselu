@@ -34,7 +34,7 @@ set(SOURCE_FILES
         src/opengl/Mesh.cpp src/opengl/Mesh.hpp
         src/opengl/Vertex.hpp
         src/opengl/Texture.cpp src/opengl/Texture.hpp
-        vendors/stb_image/stb_image.hpp vendors/stb_image/stb_image.cpp)
+        vendors/stb_image/stb_image.hpp vendors/stb_image/stb_image.cpp src/opengl/TextureManager.cpp src/opengl/TextureManager.hpp src/opengl/IModel.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
@@ -62,3 +62,4 @@ if (Hana_FOUND)
 endif()
 
 file(COPY src/shaders DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}.)
+file(COPY resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}.)

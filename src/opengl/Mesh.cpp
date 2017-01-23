@@ -1,6 +1,6 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<std::shared_ptr<Texture>> textures)
 : m_vertices(vertices)
 , m_indices(indices)
 , m_textures(textures)
@@ -51,19 +51,17 @@ void Mesh::draw(Shader shader)
     for (GLuint i = 0; i < m_textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i); // Active proper texture unit before binding
         // Retrieve texture number (the N in diffuse_textureN)
-        std::stringstream ss;
-        std::string number;
-        std::string name = m_textures[i].type;
-        if(name == "texture_diffuse")
-            ss << diffuseNr++; // Transfer GLuint to stream
-        else if(name == "texture_specular")
-            ss << specularNr++; // Transfer GLuint to stream
-        number = ss.str();
+        GLuint number = 0;
+        TextureType name = m_textures[i]->type;
+        if (name == TextureType::Diffuse)
+            number = diffuseNr++; // Transfer GLuint to stream
+        else if(name == TextureType::Spectular)
+            number = specularNr++; // Transfer GLuint to stream
         // Now set the sampler to the correct texture unit
-        // todo remove cast
-        shader.setUniform((name + number).c_str(), (int) i);
+        // todo remove cast by making a new uniform method
+        shader.setUniform((name + Texture::getTextForType(number)), (int) i);
         // And finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, m_textures[i].id);
+        glBindTexture(GL_TEXTURE_2D, m_textures[i]->id);
     }
 
     // Also set each mesh's shininess property to a default value

@@ -5,11 +5,27 @@
 #include <string>
 #include "../../vendors/glad/glad.h"
 
-struct Texture
+enum TextureType
 {
+    Diffuse,
+    Spectular
+};
+
+static const char *TextureTypeStrings[] =
+        {
+                "texture_diffuse",
+                "texture_spectular",
+        };
+
+class Texture
+{
+public:
     GLuint id;
-    std::string type;
+    TextureType type;
     std::string path;
+
+    static const char *getTextForType(int enumVal);
+    Texture(GLuint id, TextureType type, std::string path);
 };
 
 

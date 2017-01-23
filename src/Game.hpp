@@ -10,6 +10,7 @@
 #include "Window.hpp"
 #include "states/IGameState.hpp"
 #include "Timer.hpp"
+#include "opengl/TextureManager.hpp"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ private:
     WindowPtr m_window;
     Timer m_timer;
     GameStateStack m_states;
+    TextureManager m_textureManager;
 
     const int m_windowWidth = 800;
     const int m_windowHeight = 600;
@@ -39,6 +41,7 @@ public:
     const boost::optional<GameStatePtr&> peekState();
     WindowPtr &getWindowRef();
     EventDispatcher &getEventDispatcherRef();
+    TextureManager &getTextureManagerRef();
     void gameLoop();
     ~Game();
 };
