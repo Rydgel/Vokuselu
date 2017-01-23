@@ -58,8 +58,7 @@ void Mesh::draw(Shader shader)
         else if(name == TextureType::Spectular)
             number = specularNr++; // Transfer GLuint to stream
         // Now set the sampler to the correct texture unit
-        // todo remove cast by making a new uniform method
-        shader.setUniform((name + Texture::getTextForType(number)), (int) i);
+        shader.setUniform((name + Texture::getTextForType(number)), i);
         // And finally bind the texture
         glBindTexture(GL_TEXTURE_2D, m_textures[i]->id);
     }

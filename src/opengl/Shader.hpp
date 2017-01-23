@@ -17,6 +17,7 @@ public:
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     // todo add all uniforms type
     // uniform variable settings
+    void setUniform(const std::string &name, GLuint x);
     void setUniform(const std::string &name, int x);
     void setUniform(const std::string &name, float x);
     // Use the program

@@ -70,6 +70,12 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     glDeleteShader(fragment);
 }
 
+void Shader::setUniform(const std::string &name, GLuint x)
+{
+    GLint vertexColorLocation = glGetUniformLocation(m_program, name.c_str());
+    glUniform1i(vertexColorLocation, x);
+}
+
 void Shader::setUniform(const std::string &name, int x)
 {
     GLint vertexColorLocation = glGetUniformLocation(m_program, name.c_str());
