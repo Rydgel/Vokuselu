@@ -11,9 +11,6 @@
 class Triangle
 {
 private:
-    GLuint m_vaoId;
-    GLuint m_vboId;
-    GLuint m_eboId;
     Shader m_shader;
     Mesh m_mesh;
 
@@ -38,7 +35,7 @@ private:
 public:
     Triangle();
     void draw();
-    ~Triangle();
+    ~Triangle() {};
 };
 
 

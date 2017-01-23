@@ -14,10 +14,3 @@ void Triangle::draw()
     m_shader.setUniform("hue_value", (float) glfwGetTime());
     m_mesh.draw(m_shader);
 }
-
-Triangle::~Triangle()
-{
-    glDeleteVertexArrays(1, &m_vaoId);
-    glDeleteBuffers(1, &m_vboId);
-    glDeleteBuffers(1, &m_eboId);
-}
