@@ -29,6 +29,8 @@ Window::Window(const int width, const int height, const char *title, EventDispat
     // Glad openGL loader
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
+    glEnable(GL_DEPTH_TEST);
+
     // todo put that in a changeViewport function
     // Setting up viewport to draw inside
     int w, h;

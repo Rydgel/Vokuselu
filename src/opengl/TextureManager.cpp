@@ -8,7 +8,8 @@ TextureManager::TextureManager()
 void TextureManager::addTexture(const std::string name, const std::string path)
 {
     int width, height, nbChannels;
-    unsigned char* image = stbi_load(path.c_str(), &width, &height, &nbChannels, STBI_rgb_alpha);
+    // todo dynamically check for alpha if needed
+    unsigned char* image = stbi_load(path.c_str(), &width, &height, &nbChannels, STBI_rgb);
 
     if (image == nullptr) throw(std::string("Failed to load texture"));
 

@@ -7,6 +7,7 @@ Game::Game()
     // load textures
     m_textureManager.addTexture("pogchamp", "resources/textures/pogchamp.png");
     m_textureManager.addTexture("wall", "resources/textures/wall.jpg");
+    m_textureManager.addTexture("lirikN", "resources/textures/lirikN.jpg");
 }
 
 void Game::pushState(GameStatePtr state)
