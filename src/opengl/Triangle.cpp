@@ -38,7 +38,7 @@ void Triangle::draw()
     // Draw our first triangle
     glm::mat4 trans;
     // trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-    trans = glm::rotate(trans, (GLfloat) glfwGetTime() * 3.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+    trans = glm::rotate(trans, (GLfloat) glfwGetTime() * 3.0f, glm::vec3(0.0f, 1.0f, 1.0f));
 
     BoundShader bound(m_shader);
     m_shader.setUniform("hue_value", (float) glfwGetTime() * 30);
