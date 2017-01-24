@@ -1,6 +1,7 @@
 #include "PlayState.hpp"
 
 PlayState::PlayState(Game &game) : IGameState(game)
+, m_camera(game.getEventDispatcherRef())
 , m_model(game.getTextureManagerRef())
 {
     // events handling
@@ -37,7 +38,7 @@ void PlayState::keyboardEventHandle(KeyboardEvent e)
 
 void PlayState::update(const float dt)
 {
-
+    m_camera.update(dt);
 }
 
 void PlayState::draw(const float dt)
@@ -61,11 +62,9 @@ void PlayState::draw(const float dt)
     };
 
     glm::mat4 view;
+    view = m_camera.getViewMatrix();
     glm::mat4 projection;
-    // camera position
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    // fov
-    projection = glm::perspective(45.0f, (GLfloat) 800 / (GLfloat) 600, 0.1f, 100.0f);
+    projection = glm::perspective(m_camera.m_zoom, 800.0f / 600.0f, 0.1f, 1000.0f);
 
     int i = 0;
     for (auto cubePosition : cubePositions) {

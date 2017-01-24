@@ -6,12 +6,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "IGameState.hpp"
 #include "../opengl/Cube.hpp"
+#include "../opengl/Camera.hpp"
 #include <iostream>
 
 class PlayState : public IGameState
 {
 private:
     boost::signals2::connection m_sigConnection;
+    Camera m_camera;
     Cube m_model;
 
     virtual void mouseClickEventHandle(MouseClickEvent e);
