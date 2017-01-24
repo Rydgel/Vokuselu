@@ -46,4 +46,11 @@ void Triangle::draw()
     m_shader.setUniform("hue_value", (float) glfwGetTime() * 30);
     m_shader.setUniform("transform", trans);
     m_mesh.draw(m_shader);
+
+    glm::mat4 trans2;
+    trans2 = glm::translate(trans2, glm::vec3(0.5f, -0.5f, 0.0f));
+    GLfloat scaleAmount2 = (float) sin(glfwGetTime() / 2);
+    trans2 = glm::scale(trans2, glm::vec3(scaleAmount2, scaleAmount, scaleAmount2));
+    m_shader.setUniform("transform", trans2);
+    m_mesh.draw(m_shader);
 }
