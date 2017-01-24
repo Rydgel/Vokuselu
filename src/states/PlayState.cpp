@@ -70,7 +70,7 @@ void PlayState::draw(const float dt)
     for (auto cubePosition : cubePositions) {
         glm::mat4 model;
         model = glm::translate(model, cubePosition);
-        GLfloat angle = 20.0f * i + (float) glfwGetTime() * 2;
+        GLfloat angle = 0;
         model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
         i++;
         m_model.draw(view, model, projection);

@@ -10,66 +10,91 @@ Cube::Cube(TextureManager &textureManager)
 
 const std::vector<Vertex> Cube::getVertices()
 {
-    return {
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {0.5f, -0.5f, -0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {0.5f,  0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {0.5f,  0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {-0.5f,  0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 0.0f} },
+    std::vector<GLfloat> textureCoords;
+    AtlasTexture atlas("resources/textures/terrain.png", 256, 16);
+    auto coords = atlas.getTextureCoords({3, 0});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    coords = atlas.getTextureCoords({3, 0});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    coords = atlas.getTextureCoords({3, 0});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    coords = atlas.getTextureCoords({3, 0});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    coords = atlas.getTextureCoords({1, 9});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    coords = atlas.getTextureCoords({2, 0});
+    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
 
-        Vertex { {-0.5f, -0.5f, 0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {0.5f, -0.5f, 0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {0.5f,  0.5f, 0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {0.5f,  0.5f,  0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {-0.5f,  0.5f,  0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {-0.5f, -0.5f,  0.5f}, {}, {0.0f, 0.0f} },
+    std::vector<Vertex> vertexes =  {
+        Vertex { {1, 0, 0}, {}, {} },
+        Vertex { {0, 0, 0}, {}, {} },
+        Vertex { {0, 1, 0}, {}, {} },
+        Vertex { {1, 1, 0}, {}, {} },
 
-        Vertex { {-0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {-0.5f,  0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {-0.5f, -0.5f,  0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {-0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0f} },
+        Vertex { {1, 0, 1}, {}, {} },
+        Vertex { {1, 0, 0}, {}, {} },
+        Vertex { {1, 1, 0}, {}, {} },
+        Vertex { {1, 1, 1}, {}, {} },
 
-        Vertex { {0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {0.5f,  0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {0.5f, -0.5f,  0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0f} },
+        Vertex { {0, 0, 1}, {}, {} },
+        Vertex { {1, 0, 1}, {}, {} },
+        Vertex { {1, 1, 1}, {}, {} },
+        Vertex { {0, 1, 1}, {}, {} },
 
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {0.5f, -0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {0.5f, -0.5f,  0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {0.5f, -0.5f,  0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {-0.5f, -0.5f,  0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {-0.5f, -0.5f, -0.5f}, {}, {0.0f, 1.0f} },
+        Vertex { {0, 0, 0}, {}, {} },
+        Vertex { {0, 0, 1}, {}, {} },
+        Vertex { {0, 1, 1}, {}, {} },
+        Vertex { {0, 1, 0}, {}, {} },
 
-        Vertex { {-0.5f,  0.5f, -0.5f}, {}, {0.0f, 1.0f} },
-        Vertex { {0.5f,  0.5f, -0.5f}, {}, {1.0f, 1.0f} },
-        Vertex { {0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0f} },
-        Vertex { {0.5f,  0.5f,  0.5f}, {}, {1.0f, 0.0} },
-        Vertex { {-0.5f,  0.5f,  0.5f}, {}, {0.0f, 0.0f} },
-        Vertex { {-0.5f,  0.5f, -0.5f}, {}, {0.0f, 1.0f} },
+        Vertex { {0, 1, 1}, {}, {} },
+        Vertex { {1, 1, 1}, {}, {} },
+        Vertex { {1, 1, 0}, {}, {} },
+        Vertex { {0, 1, 0}, {}, {} },
+
+        Vertex { {0, 0, 0}, {}, {} },
+        Vertex { {1, 0, 0}, {}, {} },
+        Vertex { {1, 0, 1}, {}, {} },
+        Vertex { {0, 0, 1}, {}, {} },
     };
+
+    int i = 0;
+    for (auto &vertex : vertexes) {
+        vertexes[i / 2].TexCoords = { textureCoords[i], textureCoords[i + 1] };
+        i += 2;
+    }
+
+    return vertexes;
 }
 
 const std::vector<GLuint> Cube::getIndices()
 {
-    std::vector<GLuint> indices;
+    return {
+            0, 1, 2,
+            2, 3, 0,
 
-    for (GLuint i = 0; i < 36; i ++)
-        indices.push_back(i);
+            4, 5, 6,
+            6, 7, 4,
 
-    return indices;
+            8, 9, 10,
+            10, 11, 8,
+
+            12, 13, 14,
+            14, 15, 12,
+
+            16, 17, 18,
+            18, 19, 16,
+
+            20, 21, 22,
+            22, 23, 20
+    };
 }
 
 const std::vector<std::shared_ptr<Texture>> Cube::getTextures()
 {
-    auto lirikNOpt = m_textureManager.getTexture("lirikN");
-    if (lirikNOpt) {
-        return { lirikNOpt.get() };
+    auto textures = m_textureManager.getTexture("terrain");
+
+    if (textures) {
+        return { textures.get() };
     } else {
         printf("Warning no cube textures\n");
         return {};

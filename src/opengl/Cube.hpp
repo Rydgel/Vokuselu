@@ -11,6 +11,7 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 #include "TextureManager.hpp"
+#include "AtlasTexture.hpp"
 
 class Cube : public IModel
 {
