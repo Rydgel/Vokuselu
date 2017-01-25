@@ -30,6 +30,8 @@ Window::Window(const int width, const int height, const char *title, EventDispat
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
     glEnable(GL_DEPTH_TEST);
+    // don't draw the inside of an element
+    glEnable(GL_CULL_FACE);
     // alpha support for textures
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
