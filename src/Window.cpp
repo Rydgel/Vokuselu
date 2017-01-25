@@ -30,6 +30,9 @@ Window::Window(const int width, const int height, const char *title, EventDispat
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
     glEnable(GL_DEPTH_TEST);
+    // alpha support for textures
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // todo put that in a changeViewport function
     // Setting up viewport to draw inside
