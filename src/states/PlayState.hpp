@@ -1,13 +1,14 @@
 #ifndef VOXELS_PLAYSTATE_HPP
 #define VOXELS_PLAYSTATE_HPP
 
+#include <iostream>
+#include <random>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "IGameState.hpp"
 #include "../opengl/Cube.hpp"
 #include "../opengl/Camera.hpp"
-#include <iostream>
 
 class PlayState : public IGameState
 {
@@ -15,6 +16,9 @@ private:
     boost::signals2::connection m_sigConnection;
     Camera m_camera;
     Cube m_model;
+
+    // temp
+    std::vector<glm::vec3> cubePositions;
 
     virtual void mouseClickEventHandle(MouseClickEvent e);
     virtual void mousePositionEventHandle(MousePositionEvent e);

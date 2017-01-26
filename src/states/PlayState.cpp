@@ -10,6 +10,18 @@ PlayState::PlayState(Game &game) : IGameState(game)
     eventDispatcher.subscribe([this](MouseClickEvent e) { mouseClickEventHandle(e); });
     eventDispatcher.subscribe([this](MousePositionEvent e) { mousePositionEventHandle(e); });
     eventDispatcher.subscribe([this](KeyboardEvent e) { keyboardEventHandle(e); });
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<>dis(-50, 50.0f);
+
+    // temp
+    for (int i = 0; i < 4000; i++) {
+        auto x = dis(gen);
+        auto y = dis(gen);
+        auto z = dis(gen);
+        cubePositions.push_back(glm::vec3(x, y, z));
+    }
 }
 
 void PlayState::mouseClickEventHandle(MouseClickEvent e)
@@ -47,20 +59,6 @@ void PlayState::draw(const float dt)
     glClearColor(0.73f, 0.82f, 0.89f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // LirikN cubes
-    glm::vec3 cubePositions[] = {
-            glm::vec3( 0.0f,  0.0f,  0.0f),
-            glm::vec3( 2.0f,  5.0f, -15.0f),
-            glm::vec3(-1.5f, -2.2f, -2.5f),
-            glm::vec3(-3.8f, -2.0f, -12.3f),
-            glm::vec3( 2.4f, -0.4f, -3.5f),
-            glm::vec3(-1.7f,  3.0f, -7.5f),
-            glm::vec3( 1.3f, -2.0f, -2.5f),
-            glm::vec3( 1.5f,  2.0f, -2.5f),
-            glm::vec3( 1.5f,  0.2f, -1.5f),
-            glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
-
     glm::mat4 view;
     view = m_camera.getViewMatrix();
     glm::mat4 projection;
@@ -70,8 +68,8 @@ void PlayState::draw(const float dt)
     for (auto cubePosition : cubePositions) {
         glm::mat4 model;
         model = glm::translate(model, cubePosition);
-        GLfloat angle = 0;
-        model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+        //GLfloat angle = 0;
+        //model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
         if (i % 2 == 0) {
             m_model.draw(view, model, projection, 0);
         } else {
