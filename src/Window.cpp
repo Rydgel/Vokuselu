@@ -36,6 +36,8 @@ Window::Window(const int width, const int height, const char *title, EventDispat
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    hideCursor();
+
     // todo put that in a changeViewport function
     // Setting up viewport to draw inside
     int w, h;
@@ -75,6 +77,16 @@ void Window::closeWindow()
 void Window::changeTitle(const char *title)
 {
     glfwSetWindowTitle(m_window.get(), title);
+}
+
+void Window::hideCursor()
+{
+    glfwSetInputMode(m_window.get(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+}
+
+void Window::showCursor()
+{
+    glfwSetInputMode(m_window.get(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void Window::printGLInfos()

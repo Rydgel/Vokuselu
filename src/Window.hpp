@@ -32,6 +32,8 @@ public:
     void swapBuffers();
     void closeWindow();
     void changeTitle(const char *title);
+    void hideCursor();
+    void showCursor();
     void printGLInfos();
     /* event callbacks */
     void setupEventCallbacks();
