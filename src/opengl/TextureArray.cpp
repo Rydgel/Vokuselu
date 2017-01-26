@@ -9,15 +9,10 @@ void TextureArray::addTextures(std::vector<std::string> paths)
 {
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D_ARRAY, m_textureId);
-    int mipLevelCount = 1;
+    int mipLevelCount = 3;
     GLsizei layerCount = (GLsizei) paths.size();
     // glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA, 16, 16, layerCount, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-    glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA8, 16, 16,  layerCount);
-    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
+    glTexStorage3D(GL_TEXTURE_2D_ARRAY, mipLevelCount, GL_RGBA8, 16, 16,  layerCount);
 
     for (auto &path : paths) {
         int width, height, nbChannels;
@@ -27,6 +22,12 @@ void TextureArray::addTextures(std::vector<std::string> paths)
         m_textureNumber ++;
         stbi_image_free(image);
     }
+
+    glGenerateMipmap(GL_TEXTURE_2D_ARRAY);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     unbind();
 }
