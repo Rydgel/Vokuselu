@@ -7,7 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "IGameState.hpp"
-#include "../opengl/Cube.hpp"
+#include "../opengl/CubeModel.hpp"
 #include "../opengl/Camera.hpp"
 
 class PlayState : public IGameState
@@ -15,7 +15,7 @@ class PlayState : public IGameState
 private:
     boost::signals2::connection m_sigConnection;
     Camera m_camera;
-    Cube m_model;
+    CubeModel m_model;
 
     // temp
     std::vector<glm::mat4> cubePositions;

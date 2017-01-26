@@ -12,7 +12,7 @@
 #include "Mesh.hpp"
 #include "TextureArray.hpp"
 
-class Cube : public IModel
+class CubeModel : public IModel
 {
 private:
     Shader m_shader;
@@ -22,9 +22,9 @@ private:
     virtual const std::vector<Vertex> getVertices();
     virtual const std::vector<GLuint> getIndices();
 public:
-    Cube(TextureArray &textureArray);
+    CubeModel(TextureArray &textureArray);
     void draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer);
-    ~Cube();
+    ~CubeModel();
 };
 
 

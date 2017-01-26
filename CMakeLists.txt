@@ -33,7 +33,7 @@ set(SOURCE_FILES
         src/opengl/Vertex.hpp
         vendors/stb_image/stb_image.hpp vendors/stb_image/stb_image.cpp
         src/opengl/IModel.hpp
-        src/opengl/Cube.cpp src/opengl/Cube.hpp
+        src/opengl/CubeModel.cpp src/opengl/CubeModel.hpp
         src/opengl/Camera.cpp src/opengl/Camera.hpp
         src/voxels/Voxel.cpp src/voxels/Voxel.hpp
         src/voxels/Chunk.cpp src/voxels/Chunk.hpp
