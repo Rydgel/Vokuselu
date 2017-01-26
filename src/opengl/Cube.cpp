@@ -1,69 +1,46 @@
 #include "Cube.hpp"
 
-Cube::Cube(TextureManager &textureManager)
+Cube::Cube(TextureArray &textureArray)
 : m_shader("shaders/cube_texture.vert", "shaders/cube_texture.frag")
-, m_textureManager(textureManager)
-, m_mesh(getVertices(), getIndices(), getTextures())
+, m_textureArray(textureArray)
+, m_mesh(getVertices(), getIndices(), m_textureArray)
 {
 
 }
 
 const std::vector<Vertex> Cube::getVertices()
 {
-    std::vector<GLfloat> textureCoords;
-    AtlasTexture atlas("resources/textures/terrain.png", 256, 16);
-    auto coords = atlas.getTextureCoords({3, 0});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
-    coords = atlas.getTextureCoords({3, 0});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
-    coords = atlas.getTextureCoords({3, 0});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
-    coords = atlas.getTextureCoords({3, 0});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
-    coords = atlas.getTextureCoords({1, 9});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
-    coords = atlas.getTextureCoords({2, 0});
-    textureCoords.insert(textureCoords.end(), coords.begin(), coords.end());
+    return {
+        Vertex { {1, 0, 0}, {}, {1, 1, 0} },
+        Vertex { {0, 0, 0}, {}, {0, 1, 0} },
+        Vertex { {0, 1, 0}, {}, {0, 0, 0} },
+        Vertex { {1, 1, 0}, {}, {1, 0, 0} },
 
-    std::vector<Vertex> vertexes =  {
-        Vertex { {1, 0, 0}, {}, {} },
-        Vertex { {0, 0, 0}, {}, {} },
-        Vertex { {0, 1, 0}, {}, {} },
-        Vertex { {1, 1, 0}, {}, {} },
+        Vertex { {1, 0, 1}, {}, {1, 1, 0} },
+        Vertex { {1, 0, 0}, {}, {0, 1, 0} },
+        Vertex { {1, 1, 0}, {}, {0, 0, 0} },
+        Vertex { {1, 1, 1}, {}, {1, 0, 0} },
 
-        Vertex { {1, 0, 1}, {}, {} },
-        Vertex { {1, 0, 0}, {}, {} },
-        Vertex { {1, 1, 0}, {}, {} },
-        Vertex { {1, 1, 1}, {}, {} },
+        Vertex { {0, 0, 1}, {}, {1, 1, 0} },
+        Vertex { {1, 0, 1}, {}, {0, 1, 0} },
+        Vertex { {1, 1, 1}, {}, {0, 0, 0} },
+        Vertex { {0, 1, 1}, {}, {1, 0, 0} },
 
-        Vertex { {0, 0, 1}, {}, {} },
-        Vertex { {1, 0, 1}, {}, {} },
-        Vertex { {1, 1, 1}, {}, {} },
-        Vertex { {0, 1, 1}, {}, {} },
+        Vertex { {0, 0, 0}, {}, {1, 1, 0} },
+        Vertex { {0, 0, 1}, {}, {0, 1, 0} },
+        Vertex { {0, 1, 1}, {}, {0, 0, 0} },
+        Vertex { {0, 1, 0}, {}, {1, 0, 0} },
 
-        Vertex { {0, 0, 0}, {}, {} },
-        Vertex { {0, 0, 1}, {}, {} },
-        Vertex { {0, 1, 1}, {}, {} },
-        Vertex { {0, 1, 0}, {}, {} },
+        Vertex { {0, 1, 1}, {}, {1, 1, 2} },
+        Vertex { {1, 1, 1}, {}, {0, 1, 2} },
+        Vertex { {1, 1, 0}, {}, {0, 0, 2} },
+        Vertex { {0, 1, 0}, {}, {1, 0, 2} },
 
-        Vertex { {0, 1, 1}, {}, {} },
-        Vertex { {1, 1, 1}, {}, {} },
-        Vertex { {1, 1, 0}, {}, {} },
-        Vertex { {0, 1, 0}, {}, {} },
-
-        Vertex { {0, 0, 0}, {}, {} },
-        Vertex { {1, 0, 0}, {}, {} },
-        Vertex { {1, 0, 1}, {}, {} },
-        Vertex { {0, 0, 1}, {}, {} },
+        Vertex { {0, 0, 0}, {}, {1, 1, 1} },
+        Vertex { {1, 0, 0}, {}, {0, 1, 1} },
+        Vertex { {1, 0, 1}, {}, {0, 0, 1} },
+        Vertex { {0, 0, 1}, {}, {1, 0, 1} },
     };
-
-    int i = 0;
-    for (auto &vertex : vertexes) {
-        vertexes[i / 2].TexCoords = { textureCoords[i], textureCoords[i + 1] };
-        i += 2;
-    }
-
-    return vertexes;
 }
 
 const std::vector<GLuint> Cube::getIndices()
@@ -89,29 +66,13 @@ const std::vector<GLuint> Cube::getIndices()
     };
 }
 
-const std::vector<std::shared_ptr<Texture>> Cube::getTextures()
-{
-    auto textures = m_textureManager.getTexture("terrain");
 
-    if (textures) {
-        return { textures.get() };
-    } else {
-        printf("Warning no cube textures\n");
-        return {};
-    }
-}
-
-void Cube::draw()
-{
-    BoundShader bound(m_shader);
-    m_mesh.draw(m_shader);
-}
-
-void Cube::draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection)
+void Cube::draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer)
 {
     BoundShader bound(m_shader);
     m_shader.setUniform("view", view);
     m_shader.setUniform("projection", projection);
     m_shader.setUniform("model", model);
+    m_shader.setUniform("layer", textureLayer);
     m_mesh.draw(m_shader);
 }

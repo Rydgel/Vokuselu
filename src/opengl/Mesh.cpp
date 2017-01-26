@@ -1,6 +1,6 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<std::shared_ptr<Texture>> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, TextureArray &textures)
 : m_vertices(vertices)
 , m_indices(indices)
 , m_textures(textures)
@@ -35,7 +35,7 @@ void Mesh::setupMesh()
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, Normal));
     // Vertex Texture Coords
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, TexCoords));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, TexCoords));
 
     glBindVertexArray(0);
 
@@ -46,37 +46,11 @@ void Mesh::setupMesh()
 void Mesh::draw(Shader shader)
 {
     // Bind appropriate textures
-    GLuint diffuseNr = 1;
-    GLuint specularNr = 1;
-    for (GLuint i = 0; i < m_textures.size(); i++) {
-        glActiveTexture(GL_TEXTURE0 + i); // Active proper texture unit before binding
-        // Retrieve texture number (the N in diffuse_textureN)
-        GLuint number = 0;
-        TextureType name = m_textures[i]->type;
-        if (name == TextureType::Diffuse)
-            number = diffuseNr++; // Transfer GLuint to stream
-        else if(name == TextureType::Spectular)
-            number = specularNr++; // Transfer GLuint to stream
-        // Now set the sampler to the correct texture unit
-        shader.setUniform((name + Texture::getTextForType(number)), i);
-        // And finally bind the texture
-        glBindTexture(GL_TEXTURE_2D, m_textures[i]->id);
-    }
-
-    // Also set each mesh's shininess property to a default value
-    // (if you want you could extend this to another mesh property and possibly change this value)
-    shader.setUniform("material.shininess", 16.0f);
-
+    BoundTexture bound(m_textures);
     // Draw mesh
     glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, (GLsizei) m_indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-
-    // Always good practice to set everything back to defaults once configured.
-    for (GLuint i = 0; i < m_textures.size(); i++) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
 
     OpenGLError error;
     error.checkOpenGLError("Error drawing");

@@ -5,10 +5,16 @@ Game::Game()
     m_window = std::make_unique<Window>(m_windowWidth, m_windowHeight, m_windowTitle, m_eventDispatcher);
     m_timer.init();
     // load textures
-    m_textureManager.addTexture("pogchamp", "resources/textures/pogchamp.png");
-    m_textureManager.addTexture("wall", "resources/textures/wall.jpg");
-    m_textureManager.addTexture("lirikN", "resources/textures/lirikN.jpg");
-    m_textureManager.addTexture("terrain", "resources/textures/terrain.png");
+    m_textureArray.addTextures(
+            {
+                    "resources/textures/blocks/grass_side.png",
+                    "resources/textures/blocks/dirt.png",
+                    "resources/textures/blocks/wool_colored_green.png",
+                    "resources/textures/blocks/stone.png",
+                    "resources/textures/blocks/stone.png",
+                    "resources/textures/blocks/stone.png",
+            }
+    );
 }
 
 void Game::pushState(GameStatePtr state)
@@ -77,9 +83,9 @@ WindowPtr &Game::getWindowRef()
     return m_window;
 }
 
-TextureManager &Game::getTextureManagerRef()
+TextureArray &Game::getTextureArrayRef()
 {
-    return m_textureManager;
+    return m_textureArray;
 }
 
 Game::~Game()

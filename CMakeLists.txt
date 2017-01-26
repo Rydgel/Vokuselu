@@ -31,14 +31,11 @@ set(SOURCE_FILES
         src/opengl/Shader.cpp src/opengl/Shader.hpp
         src/opengl/Mesh.cpp src/opengl/Mesh.hpp
         src/opengl/Vertex.hpp
-        src/opengl/Texture.cpp src/opengl/Texture.hpp
         vendors/stb_image/stb_image.hpp vendors/stb_image/stb_image.cpp
-        src/opengl/TextureManager.cpp src/opengl/TextureManager.hpp
         src/opengl/IModel.hpp
         src/opengl/Cube.cpp src/opengl/Cube.hpp
         src/opengl/Camera.cpp src/opengl/Camera.hpp
-        src/opengl/BasicTexture.cpp src/opengl/BasicTexture.hpp
-        src/opengl/AtlasTexture.cpp src/opengl/AtlasTexture.hpp src/voxels/Voxel.cpp src/voxels/Voxel.hpp src/voxels/Chunk.cpp src/voxels/Chunk.hpp)
+        src/voxels/Voxel.cpp src/voxels/Voxel.hpp src/voxels/Chunk.cpp src/voxels/Chunk.hpp src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 

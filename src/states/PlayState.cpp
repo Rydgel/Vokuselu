@@ -2,7 +2,7 @@
 
 PlayState::PlayState(Game &game) : IGameState(game)
 , m_camera(game.getEventDispatcherRef())
-, m_model(game.getTextureManagerRef())
+, m_model(game.getTextureArrayRef())
 {
     // events handling
     EventDispatcher &eventDispatcher = game.getEventDispatcherRef();
@@ -72,8 +72,13 @@ void PlayState::draw(const float dt)
         model = glm::translate(model, cubePosition);
         GLfloat angle = 0;
         model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+        if (i % 2 == 0) {
+            m_model.draw(view, model, projection, 0);
+        } else {
+            m_model.draw(view, model, projection, 3);
+        }
+
         i++;
-        m_model.draw(view, model, projection);
     }
 }
 

@@ -10,7 +10,7 @@ struct Vertex
     // Normal
     glm::vec3 Normal;
     // TexCoords
-    glm::vec2 TexCoords;
+    glm::vec3 TexCoords;
 };
 
 

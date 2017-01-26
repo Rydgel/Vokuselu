@@ -10,23 +10,20 @@
 #include "IModel.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
-#include "TextureManager.hpp"
-#include "AtlasTexture.hpp"
+#include "TextureArray.hpp"
 
 class Cube : public IModel
 {
 private:
     Shader m_shader;
-    TextureManager &m_textureManager;
+    TextureArray &m_textureArray;
     Mesh m_mesh;
 
     virtual const std::vector<Vertex> getVertices();
     virtual const std::vector<GLuint> getIndices();
-    virtual const std::vector<std::shared_ptr<Texture>> getTextures();
 public:
-    Cube(TextureManager &textureManager);
-    void draw();
-    void draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection);
+    Cube(TextureArray &textureArray);
+    void draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer);
     ~Cube() {};
 };
 

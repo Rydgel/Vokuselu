@@ -5,7 +5,7 @@
 #include <vector>
 #include "../../vendors/glad/glad.h"
 #include "Vertex.hpp"
-#include "Texture.hpp"
+#include "TextureArray.hpp"
 #include "Shader.hpp"
 #include "OpenGLError.hpp"
 
@@ -15,13 +15,13 @@ private:
     /*  Mesh Data  */
     std::vector<Vertex> m_vertices;
     std::vector<GLuint> m_indices;
-    std::vector<std::shared_ptr<Texture>> m_textures;
+    TextureArray &m_textures;
     /*  Render data  */
     GLuint m_VAO, m_VBO, m_EBO;
     //
     void setupMesh();
 public:
-    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<std::shared_ptr<Texture>> textures);
+    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, TextureArray &textures);
     void draw(Shader shader);
     ~Mesh();
 };
