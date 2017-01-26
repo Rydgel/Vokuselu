@@ -15,14 +15,15 @@ private:
     /*  Mesh Data  */
     std::vector<Vertex> m_vertices;
     std::vector<GLuint> m_indices;
-    TextureArray &m_textures;
     /*  Render data  */
     GLuint m_VAO, m_VBO, m_EBO;
     //
     void setupMesh();
 public:
-    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, TextureArray &textures);
+    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
     void draw(Shader shader);
+    void bind();
+    void unbind();
     ~Mesh();
 };
 

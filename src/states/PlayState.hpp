@@ -18,7 +18,7 @@ private:
     Cube m_model;
 
     // temp
-    std::vector<glm::vec3> cubePositions;
+    std::vector<glm::mat4> cubePositions;
 
     virtual void mouseClickEventHandle(MouseClickEvent e);
     virtual void mousePositionEventHandle(MousePositionEvent e);

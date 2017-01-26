@@ -51,7 +51,7 @@ struct EventDispatcher {
     SignalMap signal_map;
 
     template <class Slot>
-    auto subscribe(Slot slot) {
+    boost::signals2::connection subscribe(Slot slot) {
         using ConcreteEvent = typename FirstParameter<Slot>::type;
 
         auto & sig = signal_map[hana::type_c<ConcreteEvent>];

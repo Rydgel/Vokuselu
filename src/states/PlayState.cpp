@@ -16,11 +16,13 @@ PlayState::PlayState(Game &game) : IGameState(game)
     std::uniform_real_distribution<>dis(-50, 50.0f);
 
     // temp
-    for (int i = 0; i < 4000; i++) {
+    for (int i = 0; i < 4096; i++) {
         auto x = dis(gen);
         auto y = dis(gen);
         auto z = dis(gen);
-        cubePositions.push_back(glm::vec3(x, y, z));
+        glm::mat4 model;
+        model = glm::translate(model, glm::vec3(x, y, z));
+        cubePositions.push_back(model);
     }
 }
 
@@ -62,12 +64,10 @@ void PlayState::draw(const float dt)
     glm::mat4 view;
     view = m_camera.getViewMatrix();
     glm::mat4 projection;
-    projection = glm::perspective(m_camera.m_zoom, 800.0f / 600.0f, 0.1f, 1000.0f);
+    projection = glm::perspective(m_camera.m_zoom, 800.0f / 600.0f, 0.1f, 500.0f);
 
     int i = 0;
-    for (auto cubePosition : cubePositions) {
-        glm::mat4 model;
-        model = glm::translate(model, cubePosition);
+    for (auto model : cubePositions) {
         //GLfloat angle = 0;
         //model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
         if (i % 2 == 0) {

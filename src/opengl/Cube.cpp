@@ -3,9 +3,11 @@
 Cube::Cube(TextureArray &textureArray)
 : m_shader("shaders/cube_texture.vert", "shaders/cube_texture.frag")
 , m_textureArray(textureArray)
-, m_mesh(getVertices(), getIndices(), m_textureArray)
+, m_mesh(getVertices(), getIndices())
 {
-
+    m_mesh.bind();
+    m_textureArray.bind();
+    m_shader.bind();
 }
 
 const std::vector<Vertex> Cube::getVertices()
@@ -69,10 +71,16 @@ const std::vector<GLuint> Cube::getIndices()
 
 void Cube::draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer)
 {
-    BoundShader bound(m_shader);
     m_shader.setUniform("view", view);
     m_shader.setUniform("projection", projection);
     m_shader.setUniform("model", model);
     m_shader.setUniform("layer", textureLayer);
     m_mesh.draw(m_shader);
+}
+
+Cube::~Cube()
+{
+    m_mesh.unbind();
+    m_shader.unbind();
+    m_textureArray.unbind();
 }

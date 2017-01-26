@@ -1,9 +1,8 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, TextureArray &textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 : m_vertices(vertices)
 , m_indices(indices)
-, m_textures(textures)
 {
     setupMesh();
 }
@@ -37,7 +36,7 @@ void Mesh::setupMesh()
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, TexCoords));
 
-    glBindVertexArray(0);
+    unbind();
 
     OpenGLError error;
     error.checkOpenGLError("Error init model");
@@ -45,19 +44,28 @@ void Mesh::setupMesh()
 
 void Mesh::draw(Shader shader)
 {
-    // Bind appropriate textures
-    BoundTexture bound(m_textures);
     // Draw mesh
-    glBindVertexArray(m_VAO);
+    // glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, (GLsizei) m_indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
+    // glBindVertexArray(0);
 
     OpenGLError error;
     error.checkOpenGLError("Error drawing");
 }
 
+void Mesh::bind()
+{
+    glBindVertexArray(m_VAO);
+}
+
+void Mesh::unbind()
+{
+    glBindVertexArray(0);
+}
+
 Mesh::~Mesh()
 {
+    unbind();
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
     glDeleteBuffers(1, &m_EBO);

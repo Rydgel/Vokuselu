@@ -4,7 +4,7 @@ project(voxels)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -O3 -ffast-math")
 
 find_package(GLFW REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -35,7 +35,9 @@ set(SOURCE_FILES
         src/opengl/IModel.hpp
         src/opengl/Cube.cpp src/opengl/Cube.hpp
         src/opengl/Camera.cpp src/opengl/Camera.hpp
-        src/voxels/Voxel.cpp src/voxels/Voxel.hpp src/voxels/Chunk.cpp src/voxels/Chunk.hpp src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp)
+        src/voxels/Voxel.cpp src/voxels/Voxel.hpp
+        src/voxels/Chunk.cpp src/voxels/Chunk.hpp
+        src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
