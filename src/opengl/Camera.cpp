@@ -44,6 +44,11 @@ void Camera::updatePosition(const float dt)
         m_position -= m_right * velocity;
     if (m_keyStates[GLFW_KEY_D])
         m_position += m_right * velocity;
+    // todo kind of weird
+    if (m_keyStates[GLFW_KEY_SPACE])
+        m_position += m_up * velocity;
+    if (m_keyStates[GLFW_KEY_LEFT_CONTROL])
+        m_position -= m_up * velocity;
 }
 
 void Camera::updatePitch(const float dt)
