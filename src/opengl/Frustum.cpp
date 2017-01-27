@@ -94,10 +94,8 @@ void Frustum::CalculateFrustum(const glm::mat4 &projMatrix, const glm::mat4 &vie
 
 bool Frustum::PointInFrustum(float x, float y, float z)
 {
-    for (int i = 0; i < 6; i++)
-    {
-        if (m_Frustum[i][A] * x + m_Frustum[i][B] * y + m_Frustum[i][C] * z + m_Frustum[i][D] <= 0)
-        {
+    for (int i = 0; i < 6; i++) {
+        if (m_Frustum[i][A] * x + m_Frustum[i][B] * y + m_Frustum[i][C] * z + m_Frustum[i][D] <= 0) {
             return false;
         }
     }
@@ -106,10 +104,8 @@ bool Frustum::PointInFrustum(float x, float y, float z)
 
 bool Frustum::SphereInFrustum(float x, float y, float z, float radius)
 {
-    for (int i = 0; i < 6; i++)
-    {
-        if (m_Frustum[i][A] * x + m_Frustum[i][B] * y + m_Frustum[i][C] * z + m_Frustum[i][D] <= -radius)
-        {
+    for (int i = 0; i < 6; i++) {
+        if (m_Frustum[i][A] * x + m_Frustum[i][B] * y + m_Frustum[i][C] * z + m_Frustum[i][D] <= -radius) {
             return false;
         }
     }

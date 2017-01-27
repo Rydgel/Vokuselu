@@ -15,6 +15,11 @@ PlayState::PlayState(Game &game) : IGameState(game)
     std::mt19937 gen(rd());
     std::uniform_real_distribution<>dis(-50, 50.0f);
 
+    cubePositions.push_back(glm::vec3(0, 0, 0));
+    cubePositions.push_back(glm::vec3(0, 0, 1));
+    cubePositions.push_back(glm::vec3(0, 0, 2));
+    cubePositions.push_back(glm::vec3(0, 0, 3));
+
     // temp
     for (int i = 0; i < 4096; i++) {
         auto x = dis(gen);
