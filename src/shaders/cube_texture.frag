@@ -4,6 +4,9 @@ in vec3 TexCoord;
 out vec4 color;
 
 uniform sampler2DArray ourTexture;
+
+// todo actually the fogColor should be dynamic
+// move that to uniform if still needed
 const vec4 fogColor = vec4(0.73, 0.82, 0.89, 1.0);
 
 void main()
