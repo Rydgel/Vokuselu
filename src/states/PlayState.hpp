@@ -17,6 +17,7 @@ private:
     boost::signals2::connection m_sigConnection;
     Camera m_camera;
     CubeModel m_model;
+    Frustum m_frustum;
 
     // temp
     std::vector<glm::vec3> cubePositions;

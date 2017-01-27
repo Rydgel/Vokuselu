@@ -64,12 +64,11 @@ void PlayState::draw(const float dt)
     glm::mat4 projection;
     projection = glm::perspective(m_camera.m_zoom, 800.0f / 600.0f, 0.1f, 500.0f);
 
-    Frustum frustum;
-    frustum.CalculateFrustum(projection, view);
+    m_frustum.CalculateFrustum(projection, view);
 
     int i = 0;
     for (auto pos : cubePositions) {
-        if (frustum.CubeInFrustum(pos, glm::vec3(1, 1, 1))) {
+        if (m_frustum.CubeInFrustum(pos, glm::vec3(1, 1, 1))) {
             glm::mat4 model;
             model = glm::translate(model, pos);
             if (i % 2 == 0) {
@@ -78,7 +77,6 @@ void PlayState::draw(const float dt)
                 m_model.draw(view, model, projection, 3);
             }
         }
-
 
         i++;
     }
