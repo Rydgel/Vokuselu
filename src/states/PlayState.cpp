@@ -20,9 +20,7 @@ PlayState::PlayState(Game &game) : IGameState(game)
         auto x = dis(gen);
         auto y = dis(gen);
         auto z = dis(gen);
-        glm::mat4 model;
-        model = glm::translate(model, glm::vec3(x, y, z));
-        cubePositions.push_back(model);
+        cubePositions.push_back(glm::vec3(x, y, z));
     }
 }
 
@@ -66,15 +64,21 @@ void PlayState::draw(const float dt)
     glm::mat4 projection;
     projection = glm::perspective(m_camera.m_zoom, 800.0f / 600.0f, 0.1f, 500.0f);
 
+    Frustum frustum;
+    frustum.CalculateFrustum(projection, view);
+
     int i = 0;
-    for (auto model : cubePositions) {
-        //GLfloat angle = 0;
-        //model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
-        if (i % 2 == 0) {
-            m_model.draw(view, model, projection, 0);
-        } else {
-            m_model.draw(view, model, projection, 3);
+    for (auto pos : cubePositions) {
+        if (frustum.CubeInFrustum(pos, glm::vec3(1, 1, 1))) {
+            glm::mat4 model;
+            model = glm::translate(model, pos);
+            if (i % 2 == 0) {
+                m_model.draw(view, model, projection, 0);
+            } else {
+                m_model.draw(view, model, projection, 3);
+            }
         }
+
 
         i++;
     }

@@ -9,6 +9,7 @@
 #include "IGameState.hpp"
 #include "../opengl/CubeModel.hpp"
 #include "../opengl/Camera.hpp"
+#include "../opengl/Frustum.hpp"
 
 class PlayState : public IGameState
 {
@@ -18,7 +19,7 @@ private:
     CubeModel m_model;
 
     // temp
-    std::vector<glm::mat4> cubePositions;
+    std::vector<glm::vec3> cubePositions;
 
     virtual void mouseClickEventHandle(MouseClickEvent e);
     virtual void mousePositionEventHandle(MousePositionEvent e);
