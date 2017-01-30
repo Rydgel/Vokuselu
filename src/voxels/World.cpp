@@ -10,39 +10,30 @@ World::World(Game &game)
 
 void World::initWorld()
 {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<>dis(0, 131183);
+
     // for now just generate 1 chunk
-    Chunk c1;
-    c1.initChunk(0, 0, 0);
-    Chunk c2;
-    c2.initChunk(16, 0, 0);
-    Chunk c3;
-    c3.initChunk(-16, 0, 0);
-    Chunk c4;
-    c4.initChunk(0, 0, 16);
-    Chunk c5;
-    c5.initChunk(0, 0, -16);
+    auto c1 = std::make_unique<Chunk>(dis(gen), 0, 0, 0);
+    auto c2 = std::make_unique<Chunk>(dis(gen), 16, 0, 0);
+    auto c3 = std::make_unique<Chunk>(dis(gen), -16, 0, 0);
+    auto c4 = std::make_unique<Chunk>(dis(gen), 0, 0, 16);
+    auto c5 = std::make_unique<Chunk>(dis(gen), 0, 0, -16);
+    auto c6 = std::make_unique<Chunk>(dis(gen), 16, 0, 16);
+    auto c7 = std::make_unique<Chunk>(dis(gen), -16, 0, -16);
+    auto c8 = std::make_unique<Chunk>(dis(gen), 16, 0, -16);
+    auto c9 = std::make_unique<Chunk>(dis(gen), -16, 0, 16);
 
-    Chunk c6;
-    c6.initChunk(16, 0, 16);
-
-    Chunk c7;
-    c7.initChunk(-16, 0, -16);
-
-    Chunk c8;
-    c8.initChunk(16, 0, -16);
-
-    Chunk c9;
-    c9.initChunk(-16, 0, 16);
-
-    m_chunks.push_back(c1);
-    m_chunks.push_back(c2);
-    m_chunks.push_back(c3);
-    m_chunks.push_back(c4);
-    m_chunks.push_back(c5);
-    m_chunks.push_back(c6);
-    m_chunks.push_back(c7);
-    m_chunks.push_back(c8);
-    m_chunks.push_back(c9);
+    m_chunks.push_back(std::move(c1));
+    m_chunks.push_back(std::move(c2));
+    m_chunks.push_back(std::move(c3));
+    m_chunks.push_back(std::move(c4));
+    m_chunks.push_back(std::move(c5));
+    m_chunks.push_back(std::move(c6));
+    m_chunks.push_back(std::move(c7));
+    m_chunks.push_back(std::move(c8));
+    m_chunks.push_back(std::move(c9));
 }
 
 void World::generateCubesPositions()
@@ -51,7 +42,7 @@ void World::generateCubesPositions()
     std::vector<int> layers;
 
     for (auto &chunk : m_chunks) {
-        auto chunkPositions = chunk.getCubesPositions();
+        auto chunkPositions = chunk->getCubesPositions();
         for (auto &posLayer : chunkPositions) {
             auto pos = glm::vec3(posLayer.x, posLayer.y, posLayer.z);
             auto layer = (int) posLayer.w;

@@ -1,8 +1,29 @@
 #include "Chunk.hpp"
 
-Chunk::Chunk()
+Chunk::Chunk(int id, int xOffset, int yOffset, int zOffset)
 {
+    m_id = id;
+    m_xOffset = xOffset;
+    m_yOffset = yOffset;
+    m_zOffset = zOffset;
 
+    // todo find a better way :'(
+    m_mapGen = std::make_unique<MapGeneratorHeightmap>(id);
+
+    for (int x = 0; x < 16; x ++) {
+        for (int y = 0; y < 16; y ++) {
+            for (int z = 0; z < 16; z ++) {
+                /*if (x % 2 == 0) {
+                    m_voxels[x][y][z] = Voxel { VoxelType::DIRT };
+                } else {
+                    m_voxels[x][y][z] = Voxel { VoxelType::STONE };
+                }*/
+                m_voxels[x][y][z] = Voxel { VoxelType::AIR };
+            }
+        }
+    }
+
+    m_mapGen->makeChunk(*this);
 }
 
 int Chunk::getVoxelType(int x, int y, int z)
@@ -13,25 +34,6 @@ int Chunk::getVoxelType(int x, int y, int z)
         return -1;
     } else {
         return m_voxels[x][y][z].type;
-    }
-}
-
-void Chunk::initChunk(int xOffset, int yOffset, int zOffset)
-{
-    m_xOffset = xOffset;
-    m_yOffset = yOffset;
-    m_zOffset = zOffset;
-
-    for (int x = 0; x < 16; x ++) {
-        for (int y = 0; y < 16; y ++) {
-            for (int z = 0; z < 16; z ++) {
-                if (x % 2 == 0) {
-                    m_voxels[x][y][z] = Voxel { 0 };
-                } else {
-                    m_voxels[x][y][z] = Voxel { 3 };
-                }
-            }
-        }
     }
 }
 
@@ -84,7 +86,18 @@ void Chunk::setShouldRegen()
     m_shouldRegen = true;
 }
 
+void Chunk::fill(Voxel voxel, int x, int y, int z)
+{
+    m_voxels[x][y][z] = voxel;
+    setShouldRegen();
+}
+
+glm::vec3 Chunk::getChunkOffset()
+{
+    return glm::vec3(m_xOffset, m_yOffset, m_zOffset);
+}
+
 Chunk::~Chunk()
 {
-
+    printf("Chunk %d deallocated\n", m_id);
 }

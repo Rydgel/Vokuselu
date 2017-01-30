@@ -2,6 +2,7 @@
 #define VOXELS_WORLD_HPP
 
 #include <vector>
+#include <random>
 #include "Chunk.hpp"
 #include "../opengl/Frustum.hpp"
 #include "../Game.hpp"
@@ -12,7 +13,7 @@ class World
 {
 private:
     Game &m_game;
-    std::vector<Chunk> m_chunks;
+    std::vector<std::unique_ptr<Chunk>> m_chunks;
     Camera m_camera;
     Frustum m_frustum;
     CubeModel m_model;
