@@ -13,8 +13,8 @@ void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
 
     // Generates a simple heightmap
     if (org.z >= -96 && org.z < 160) {
-        for (int y = 0; y < Chunk::SIZE; y++)
-            for (int x = 0; x < Chunk::SIZE; x++) {
+        for (int y = 0; y < CHUNK_SIZE; y++)
+            for (int x = 0; x < CHUNK_SIZE; x++) {
                 int h = abs((int) (256.f * Noise::noise2dPerlin(
                         x + org.x, y + org.y, m_seed, 6, 0.5, 256)));
 
@@ -27,8 +27,8 @@ void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
                     std::cout << "e";
                 */
 
-                if (h >= static_cast<int>(Chunk::SIZE))
-                    h = Chunk::SIZE;
+                if (h >= static_cast<int>(CHUNK_SIZE))
+                    h = CHUNK_SIZE;
 
                 if (h != 0) {
                     for (int z = 0; z < h; z++) {

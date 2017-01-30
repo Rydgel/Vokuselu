@@ -64,5 +64,13 @@ if (Hana_FOUND)
     include_directories(${Hana_INCLUDE_DIRS})
 endif()
 
+find_package(LIBNOISE)
+
+if (LIBNOISE_FOUND)
+    message("THIS IS FOUND")
+    include_directories(${LIBNOISE_INCLUDE_DIR})
+    target_link_libraries(voxels ${LIBNOISE_LIBRARIES})
+endif()
+
 file(COPY src/shaders DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}.)
 file(COPY resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}.)

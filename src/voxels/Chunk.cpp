@@ -10,9 +10,9 @@ Chunk::Chunk(int id, int xOffset, int yOffset, int zOffset)
     // todo find a better way :'(
     m_mapGen = std::make_unique<MapGeneratorHeightmap>(id);
 
-    for (int x = 0; x < Chunk::SIZE; x ++) {
-        for (int y = 0; y < Chunk::SIZE; y ++) {
-            for (int z = 0; z < Chunk::SIZE; z ++) {
+    for (int x = 0; x < CHUNK_SIZE; x ++) {
+        for (int y = 0; y < CHUNK_SIZE; y ++) {
+            for (int z = 0; z < CHUNK_SIZE; z ++) {
                 m_voxels[x][y][z] = Voxel { VoxelType::DIRT };
                 /*if (x % 2 == 0) {
                     m_voxels[x][y][z] = Voxel { VoxelType::DIRT };
@@ -31,7 +31,7 @@ int Chunk::getVoxelType(int x, int y, int z)
 {
     if (x < 0 || y < 0 || z < 0) {
         return - 1;
-    } else if (x >= Chunk::SIZE || y >= Chunk::SIZE || z >= Chunk::SIZE) {
+    } else if (x >= CHUNK_SIZE || y >= CHUNK_SIZE || z >= CHUNK_SIZE) {
         return -1;
     } else {
         return m_voxels[x][y][z].type;
@@ -41,9 +41,9 @@ int Chunk::getVoxelType(int x, int y, int z)
 void Chunk::generateCubesPositions()
 {
     m_positionsLayered.clear();
-    for (int x = 0; x < Chunk::SIZE; x ++) {
-        for (int y = 0; y < Chunk::SIZE; y++) {
-            for (int z = 0; z < Chunk::SIZE; z++) {
+    for (int x = 0; x < CHUNK_SIZE; x ++) {
+        for (int y = 0; y < CHUNK_SIZE; y++) {
+            for (int z = 0; z < CHUNK_SIZE; z++) {
                 auto voxel = m_voxels[x][y][z];
                 auto layout = voxel.type;
 
