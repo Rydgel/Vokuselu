@@ -37,7 +37,14 @@ set(SOURCE_FILES
         src/opengl/Camera.cpp src/opengl/Camera.hpp
         src/voxels/Voxel.cpp src/voxels/Voxel.hpp
         src/voxels/Chunk.cpp src/voxels/Chunk.hpp
-        src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp src/opengl/Frustum.cpp src/opengl/Frustum.hpp src/voxels/World.cpp src/voxels/World.hpp src/utils/noise/Noise.cpp src/utils/noise/Noise.hpp src/utils/noise/SimplexNoise.cpp src/utils/noise/SimplexNoise.hpp src/utils/noise/Interpolation.cpp src/utils/noise/Interpolation.hpp src/voxels/map/MapGenerator.hpp src/voxels/map/MapGeneratorHeightmap.cpp src/voxels/map/MapGeneratorHeightmap.hpp)
+        src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp
+        src/opengl/Frustum.cpp src/opengl/Frustum.hpp
+        src/voxels/World.cpp src/voxels/World.hpp
+        src/utils/noise/Noise.cpp src/utils/noise/Noise.hpp
+        src/utils/noise/SimplexNoise.cpp src/utils/noise/SimplexNoise.hpp
+        src/utils/noise/Interpolation.cpp src/utils/noise/Interpolation.hpp
+        src/voxels/map/MapGenerator.hpp src/voxels/map/MapGeneratorHeightmap.cpp
+        src/voxels/map/MapGeneratorHeightmap.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
@@ -67,7 +74,6 @@ endif()
 find_package(LIBNOISE)
 
 if (LIBNOISE_FOUND)
-    message("THIS IS FOUND")
     include_directories(${LIBNOISE_INCLUDE_DIR})
     target_link_libraries(voxels ${LIBNOISE_LIBRARIES})
 endif()

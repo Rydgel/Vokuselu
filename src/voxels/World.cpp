@@ -29,11 +29,11 @@ void World::initWorld()
     m_chunks.push_back(std::move(c2));
     m_chunks.push_back(std::move(c3));
     m_chunks.push_back(std::move(c4));
-    /*m_chunks.push_back(std::move(c5));
+    m_chunks.push_back(std::move(c5));
     m_chunks.push_back(std::move(c6));
     m_chunks.push_back(std::move(c7));
     m_chunks.push_back(std::move(c8));
-    m_chunks.push_back(std::move(c9));*/
+    m_chunks.push_back(std::move(c9));
 }
 
 void World::generateCubesPositions()

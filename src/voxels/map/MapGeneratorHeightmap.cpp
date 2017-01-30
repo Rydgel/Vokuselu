@@ -25,7 +25,7 @@ void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
             float xPosition = offset.x + x;
             float zPosition = offset.z + z;
 
-            // Get the
+            // Get the noise height
             float noise = octave_noise_2d(m_landscapeOctaves, m_landscapePersistence, m_landscapeScale, xPosition, zPosition);
             float noiseNormalized = ((noise + 1.0f) * 0.5f);
             float noiseHeight = noiseNormalized * CHUNK_SIZE;
@@ -40,20 +40,11 @@ void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
                 float yPosition = offset.y + y;
 
                 if (y < noiseHeight) {
-                    chunk.fill(Voxel { VoxelType::DIRT}, x, y, z);
-                }
-
-                /*if (pChunkStorage != NULL && pChunkStorage->m_blockSet[x][y][z] == true) {
-                    SetColour(x, y, z, pChunkStorage->m_colour[x][y][z]);
-                } else {
-                    if (y + (m_gridY*CHUNK_SIZE) < noiseHeight) {
-                        float colorNoise = octave_noise_3d(4.0f, 0.3f, 0.005f, xPosition, yPosition, zPosition);
-                        float colorNoiseNormalized = ((colorNoise + 1.0f) * 0.5f);
-
-
+                    chunk.fill(Voxel { VoxelType::GROUND }, x, y, z);
+                    if (y - 1 > 0) {
+                        chunk.fill(Voxel { VoxelType::DIRT }, x, y - 1, z);
                     }
-                }*/
-
+                }
             }
         }
     }
