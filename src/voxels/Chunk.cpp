@@ -13,18 +13,12 @@ Chunk::Chunk(int id, int xOffset, int yOffset, int zOffset)
     for (int x = 0; x < CHUNK_SIZE; x ++) {
         for (int y = 0; y < CHUNK_SIZE; y ++) {
             for (int z = 0; z < CHUNK_SIZE; z ++) {
-                m_voxels[x][y][z] = Voxel { VoxelType::DIRT };
-                /*if (x % 2 == 0) {
-                    m_voxels[x][y][z] = Voxel { VoxelType::DIRT };
-                } else {
-                    m_voxels[x][y][z] = Voxel { VoxelType::STONE };
-                }*/
-                // m_voxels[x][y][z] = Voxel { VoxelType::AIR };
+                m_voxels[x][y][z] = Voxel { VoxelType::AIR };
             }
         }
     }
 
-    // m_mapGen->makeChunk(*this);
+    m_mapGen->makeChunk(*this);
 }
 
 int Chunk::getVoxelType(int x, int y, int z)

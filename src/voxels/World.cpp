@@ -29,11 +29,11 @@ void World::initWorld()
     m_chunks.push_back(std::move(c2));
     m_chunks.push_back(std::move(c3));
     m_chunks.push_back(std::move(c4));
-    m_chunks.push_back(std::move(c5));
+    /*m_chunks.push_back(std::move(c5));
     m_chunks.push_back(std::move(c6));
     m_chunks.push_back(std::move(c7));
     m_chunks.push_back(std::move(c8));
-    m_chunks.push_back(std::move(c9));
+    m_chunks.push_back(std::move(c9));*/
 }
 
 void World::generateCubesPositions()
@@ -45,8 +45,8 @@ void World::generateCubesPositions()
         auto chunkPositions = chunk->getCubesPositions();
         for (auto &posLayer : chunkPositions) {
             auto pos = glm::vec3(posLayer.x, posLayer.y, posLayer.z);
-            auto layer = (int) posLayer.w;
             if (m_frustum.CubeInFrustum(pos, glm::vec3(1, 1, 1))) {
+                auto layer = (int) posLayer.w;
                 glm::mat4 model;
                 model = glm::translate(model, pos);
                 positions.push_back(model);

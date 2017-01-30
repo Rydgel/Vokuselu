@@ -1,4 +1,5 @@
 #include "MapGeneratorHeightmap.hpp"
+#include "../../utils/noise/SimplexNoise.hpp"
 
 
 MapGeneratorHeightmap::MapGeneratorHeightmap(int seed)
@@ -9,37 +10,51 @@ MapGeneratorHeightmap::MapGeneratorHeightmap(int seed)
 
 void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
 {
-    auto org = chunk.getChunkOffset();
+    // Landscape generation
+    float m_landscapeOctaves = 4.0f;
+    float m_landscapePersistence = 0.3f;
+    float m_landscapeScale = 0.01f;
+    float m_mountainOctaves = 4.0f;
+    float m_mountainPersistence = 0.3f;
+    float m_mountainScale = 0.0075f;
+    float m_mountainMultiplier = 1.0f;
 
-    // Generates a simple heightmap
-    if (org.z >= -96 && org.z < 160) {
-        for (int y = 0; y < CHUNK_SIZE; y++)
-            for (int x = 0; x < CHUNK_SIZE; x++) {
-                int h = abs((int) (256.f * Noise::noise2dPerlin(
-                        x + org.x, y + org.y, m_seed, 6, 0.5, 256)));
+    auto offset = chunk.getChunkOffset();
+    for (int x = 0; x < CHUNK_SIZE; x++) {
+        for (int z = 0; z < CHUNK_SIZE; z++) {
+            float xPosition = offset.x + x;
+            float zPosition = offset.z + z;
 
-                /*if (h >= org.z)
-                    h -= org.z;
-                else
-                    h = 0;
+            // Get the
+            float noise = octave_noise_2d(m_landscapeOctaves, m_landscapePersistence, m_landscapeScale, xPosition, zPosition);
+            float noiseNormalized = ((noise + 1.0f) * 0.5f);
+            float noiseHeight = noiseNormalized * CHUNK_SIZE;
 
-                if (h < 0)
-                    std::cout << "e";
-                */
+            // Multiple by mountain ratio
+            float mountainNoise = octave_noise_2d(m_mountainOctaves, m_mountainPersistence, m_mountainScale, xPosition, zPosition);
+            float mountainNoiseNormalise = (mountainNoise + 1.0f) * 0.5f;
+            float mountainMultiplier = m_mountainMultiplier * mountainNoiseNormalise;
+            noiseHeight *= mountainMultiplier;
 
-                if (h >= static_cast<int>(CHUNK_SIZE))
-                    h = CHUNK_SIZE;
+            for (int y = 0; y < CHUNK_SIZE; y++) {
+                float yPosition = offset.y + y;
 
-                if (h != 0) {
-                    for (int z = 0; z < h; z++) {
-                        float n2 = -1 * Noise::noise3dPerlin(
-                                x + org.x, y + org.y, z + org.z, m_seed, 5, 0.5, 128);
-
-                        if (n2 > 0.3f && n2 < 0.7f) {
-                            chunk.fill(Voxel { VoxelType::DIRT }, x, y, z);
-                        }
-                    }
+                if (y < noiseHeight) {
+                    chunk.fill(Voxel { VoxelType::DIRT}, x, y, z);
                 }
+
+                /*if (pChunkStorage != NULL && pChunkStorage->m_blockSet[x][y][z] == true) {
+                    SetColour(x, y, z, pChunkStorage->m_colour[x][y][z]);
+                } else {
+                    if (y + (m_gridY*CHUNK_SIZE) < noiseHeight) {
+                        float colorNoise = octave_noise_3d(4.0f, 0.3f, 0.005f, xPosition, yPosition, zPosition);
+                        float colorNoiseNormalized = ((colorNoise + 1.0f) * 0.5f);
+
+
+                    }
+                }*/
+
             }
+        }
     }
 }

@@ -50,7 +50,7 @@ public:
     GLfloat m_zoom;
 
 
-    Camera(EventDispatcher &eventDispatcher, glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+    Camera(EventDispatcher &eventDispatcher, glm::vec3 position = glm::vec3(0.0f, 60.0f, 0.0f),
            glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), GLfloat yaw = YAW, GLfloat pitch = PITCH);
     Camera(EventDispatcher &eventDispatcher, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat upX, GLfloat upY,
            GLfloat upZ, GLfloat yaw, GLfloat pitch);
