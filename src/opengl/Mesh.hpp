@@ -17,11 +17,15 @@ private:
     std::vector<GLuint> m_indices;
     /*  Render data  */
     GLuint m_VAO, m_VBO, m_EBO;
+    GLuint m_instanceVBO;
+    GLuint m_instanceVBOLayouts;
+    int m_currentPositionsNumber = 0;
     //
     void setupMesh();
 public:
     Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
     void draw(Shader shader);
+    void makeInstanceBuffer(std::vector<glm::mat4> positions, std::vector<int> layers);
     void bind();
     void unbind();
     ~Mesh();

@@ -2,9 +2,9 @@
 #define VOXELS_VOXEL_HPP
 
 
-class Voxel
+struct Voxel
 {
-
+    int type;
 };
 
 

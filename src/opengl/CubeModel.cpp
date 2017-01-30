@@ -68,6 +68,12 @@ const std::vector<GLuint> CubeModel::getIndices()
     };
 }
 
+void CubeModel::draw(glm::mat4 view, glm::mat4 projection)
+{
+    m_shader.setUniform("view", view);
+    m_shader.setUniform("projection", projection);
+    m_mesh.draw(m_shader);
+}
 
 void CubeModel::draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer)
 {
@@ -83,4 +89,9 @@ CubeModel::~CubeModel()
     m_mesh.unbind();
     m_shader.unbind();
     m_textureArray.unbind();
+}
+
+void CubeModel::bindPosition(std::vector<glm::mat4> positions, std::vector<int> layers)
+{
+    m_mesh.makeInstanceBuffer(positions, layers);
 }

@@ -42,12 +42,59 @@ void Mesh::setupMesh()
     error.checkOpenGLError("Error init model");
 }
 
+void Mesh::makeInstanceBuffer(std::vector<glm::mat4> positions, std::vector<int> layers)
+{
+    glDeleteBuffers(1, &m_instanceVBO);
+    glDeleteBuffers(1, &m_instanceVBOLayouts);
+    bind();
+    GLsizei vec4Size = sizeof(glm::vec4);
+    glGenBuffers(1, &m_instanceVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_instanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * positions.size(), &positions[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_instanceVBO);
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (const void *) 0);
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (const void *) (vec4Size));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (const void *) (2 * vec4Size));
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (const void *) (3 * vec4Size));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+
+    glGenBuffers(1, &m_instanceVBOLayouts);
+    glBindBuffer(GL_ARRAY_BUFFER, m_instanceVBOLayouts);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(int) * layers.size(), &layers[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_instanceVBOLayouts);
+    glEnableVertexAttribArray(7);
+    glVertexAttribPointer(7, 1, GL_FLOAT, GL_FALSE, sizeof(int), (const void *) 0);
+    glEnableVertexAttribArray(7);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glVertexAttribDivisor(7, 1);
+
+    m_currentPositionsNumber = (int) positions.size();
+    unbind();
+}
+
 void Mesh::draw(Shader shader)
 {
+    bind();
     // Draw mesh
     // glBindVertexArray(m_VAO);
-    glDrawElements(GL_TRIANGLES, (GLsizei) m_indices.size(), GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, (GLsizei) m_indices.size(), GL_UNSIGNED_INT, 0);
     // glBindVertexArray(0);
+
+    glDrawElementsInstanced(GL_TRIANGLES, (GLsizei) m_indices.size(), GL_UNSIGNED_INT, 0, m_currentPositionsNumber);
+
+    unbind();
 
     OpenGLError error;
     error.checkOpenGLError("Error drawing");
@@ -69,4 +116,6 @@ Mesh::~Mesh()
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
     glDeleteBuffers(1, &m_EBO);
+    glDeleteBuffers(1, &m_instanceVBO);
+    glDeleteBuffers(1, &m_instanceVBOLayouts);
 }

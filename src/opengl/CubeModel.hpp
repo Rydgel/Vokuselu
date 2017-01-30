@@ -23,7 +23,9 @@ private:
     virtual const std::vector<GLuint> getIndices();
 public:
     CubeModel(TextureArray &textureArray);
+    void draw(glm::mat4 view, glm::mat4 projection);
     void draw(glm::mat4 view, glm::mat4 model, glm::mat4 projection, int textureLayer);
+    void bindPosition(std::vector<glm::mat4> positions, std::vector<int> layers);
     ~CubeModel();
 };
 

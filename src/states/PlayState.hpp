@@ -10,6 +10,7 @@
 #include "../opengl/CubeModel.hpp"
 #include "../opengl/Camera.hpp"
 #include "../opengl/Frustum.hpp"
+#include "../voxels/World.hpp"
 
 class PlayState : public IGameState
 {
@@ -18,6 +19,7 @@ private:
     Camera m_camera;
     CubeModel m_model;
     Frustum m_frustum;
+    World m_world;
 
     // temp
     std::vector<glm::vec3> cubePositions;

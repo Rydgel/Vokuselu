@@ -37,7 +37,7 @@ set(SOURCE_FILES
         src/opengl/Camera.cpp src/opengl/Camera.hpp
         src/voxels/Voxel.cpp src/voxels/Voxel.hpp
         src/voxels/Chunk.cpp src/voxels/Chunk.hpp
-        src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp src/opengl/Frustum.cpp src/opengl/Frustum.hpp)
+        src/opengl/TextureArray.cpp src/opengl/TextureArray.hpp src/opengl/Frustum.cpp src/opengl/Frustum.hpp src/voxels/World.cpp src/voxels/World.hpp)
 
 add_executable(voxels ${SOURCE_FILES})
 
