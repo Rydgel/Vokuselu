@@ -16,14 +16,14 @@ void World::initWorld()
 
     // for now just generate 1 chunk
     auto c1 = std::make_unique<Chunk>(dis(gen), 0, 0, 0);
-    auto c2 = std::make_unique<Chunk>(dis(gen), 16, 0, 0);
-    auto c3 = std::make_unique<Chunk>(dis(gen), -16, 0, 0);
-    auto c4 = std::make_unique<Chunk>(dis(gen), 0, 0, 16);
-    auto c5 = std::make_unique<Chunk>(dis(gen), 0, 0, -16);
-    auto c6 = std::make_unique<Chunk>(dis(gen), 16, 0, 16);
-    auto c7 = std::make_unique<Chunk>(dis(gen), -16, 0, -16);
-    auto c8 = std::make_unique<Chunk>(dis(gen), 16, 0, -16);
-    auto c9 = std::make_unique<Chunk>(dis(gen), -16, 0, 16);
+    auto c2 = std::make_unique<Chunk>(dis(gen), Chunk::SIZE, 0, 0);
+    auto c3 = std::make_unique<Chunk>(dis(gen), -Chunk::SIZE, 0, 0);
+    auto c4 = std::make_unique<Chunk>(dis(gen), 0, 0, Chunk::SIZE);
+    auto c5 = std::make_unique<Chunk>(dis(gen), 0, 0, -Chunk::SIZE);
+    auto c6 = std::make_unique<Chunk>(dis(gen), Chunk::SIZE, 0, Chunk::SIZE);
+    auto c7 = std::make_unique<Chunk>(dis(gen), -Chunk::SIZE, 0, -Chunk::SIZE);
+    auto c8 = std::make_unique<Chunk>(dis(gen), Chunk::SIZE, 0, -Chunk::SIZE);
+    auto c9 = std::make_unique<Chunk>(dis(gen), -Chunk::SIZE, 0, Chunk::SIZE);
 
     m_chunks.push_back(std::move(c1));
     m_chunks.push_back(std::move(c2));

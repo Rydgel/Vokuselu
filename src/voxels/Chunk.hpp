@@ -11,9 +11,11 @@ class MapGeneratorHeightmap;
 
 class Chunk
 {
+public:
+    static const int SIZE = 64;
 private:
     int m_id;
-    Voxel m_voxels[16][16][16];
+    Voxel m_voxels[Chunk::SIZE][Chunk::SIZE][Chunk::SIZE];
     int m_xOffset;
     int m_yOffset;
     int m_zOffset;
