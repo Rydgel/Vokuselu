@@ -14,5 +14,6 @@ Currently done:
 todo:
 * implements meshing to reduce the number of vertices and enhance performance.
 * physics (gravity/collision)
+* lighting system
 
 ![img](screens/voxel.png)
