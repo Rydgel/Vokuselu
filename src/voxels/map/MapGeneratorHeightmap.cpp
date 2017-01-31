@@ -41,7 +41,7 @@ void MapGeneratorHeightmap::makeChunk(Chunk &chunk)
 
                 if (y < noiseHeight) {
                     chunk.fill(Voxel { VoxelType::GROUND }, x, y, z);
-                    if (y - 1 > 0) {
+                    if (y - 1 >= 0) {
                         chunk.fill(Voxel { VoxelType::DIRT }, x, y - 1, z);
                     }
                 }
