@@ -1,3 +1,6 @@
+Deprecated.
+New engine is here: https://github.com/Rydgel/VoxelEngine
+
 ### Vokuselu
 
 A basic voxels engine. This is a work in progress and not very
